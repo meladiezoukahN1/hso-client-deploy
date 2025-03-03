@@ -26,6 +26,12 @@ const nextConfig = {
         port: "",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "67c52d50fa45f80008d169bf--hso-client.netlify",
+        port: "",
+        pathname: "/**",
+      },
     ],
   },
 };
