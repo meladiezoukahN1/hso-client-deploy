@@ -31,7 +31,7 @@ const FormField = <T extends Record<string, unknown>>({
   ...rest
 }: FormFieldProps<T>) => {
   return (
-    <div className={`flex flex-col items-end ${classWrapper}`}>
+    <div className={`flex flex-col ${classWrapper}`}>
       <div className={`flex gap-x-4 items-center ${classContainer}`}>
         {label && <div className={`font-bold ${classLabel}`}>{label}:</div>}
         <Input

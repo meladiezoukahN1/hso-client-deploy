@@ -17,15 +17,14 @@ const InputForm: React.FC<InputFormProps> = ({ register, errors }) => {
 
       <div className="grid md:grid-cols-2 gap-4">
         <FormField
-          classWrapper="justify-start"
           type="text"
           name="FirstName"
           register={register}
           error={errors.FirstName}
           label="الاسم الاول"
           placeholder="الاسم الاول"
-          className="h-6 md:h-auto bg-white ml-2 md:m-auto ring-0"
-          classContainer=""
+          className="h-8 text-xs md:text-base md:h-auto bg-white ml-2 md:m-auto ring-0"
+          classLabel="w-48 md:text-base text-sm"
         />
 
         <FormField
@@ -35,8 +34,8 @@ const InputForm: React.FC<InputFormProps> = ({ register, errors }) => {
           error={errors.MidName}
           label="الاسم الاوسط"
           placeholder="الاسم الاوسط"
-          className="h-6 md:h-auto bg-white ml-2 md:m-auto ring-0"
-          classContainer=""
+          className="h-8 text-xs md:text-base md:h-auto bg-white ml-2 md:m-auto ring-0"
+          classLabel="w-48 md:text-base text-sm"
         />
 
         <FormField
@@ -46,8 +45,9 @@ const InputForm: React.FC<InputFormProps> = ({ register, errors }) => {
           error={errors.LastName}
           label="الاسم الاخير"
           placeholder="الاسم الاخير"
-          className="h-6 md:h-auto bg-white ml-2 md:m-auto ring-0"
+          className="h-8 text-xs md:text-base md:h-auto bg-white ml-2 md:m-auto ring-0"
           classContainer=""
+          classLabel="w-48 md:text-base text-sm"
         />
 
         <FormField
@@ -57,7 +57,8 @@ const InputForm: React.FC<InputFormProps> = ({ register, errors }) => {
           error={errors.NatNo}
           label="الرقم الوطني"
           placeholder="الرقم الوطني"
-          className="h-6 md:h-auto bg-white ml-2 md:m-auto ring-0"
+          className="h-8 text-xs md:text-base md:h-auto bg-white ml-2 md:m-auto ring-0"
+          classLabel="w-48 md:text-base text-sm"
           classContainer=""
         />
 
@@ -68,8 +69,9 @@ const InputForm: React.FC<InputFormProps> = ({ register, errors }) => {
           error={errors.Email}
           label="البريد الالكتروني"
           placeholder="البريد الالكتروني"
-          className="h-6 md:h-auto bg-white ml-2 md:m-auto ring-0"
+          className="h-8 text-xs md:text-base md:h-auto bg-white ml-2 md:m-auto ring-0"
           classContainer=""
+          classLabel="w-48 md:text-base text-sm"
         />
 
         <FormField
@@ -78,7 +80,8 @@ const InputForm: React.FC<InputFormProps> = ({ register, errors }) => {
           register={register}
           error={errors.DOB}
           label="تاريخ الميلاد"
-          className="h-6 md:h-auto bg-white ml-2 md:m-auto ring-0 p-0 md:p-3"
+          classLabel="w-48 md:text-base text-sm"
+          className="h-8 text-xs md:text-base md:h-auto bg-white ml-2 md:m-auto ring-0 p-0 md:p-3"
         />
 
         <FormField
@@ -88,7 +91,8 @@ const InputForm: React.FC<InputFormProps> = ({ register, errors }) => {
           error={errors.Phone}
           label="رقم الهاتف"
           placeholder="رقم الهاتف"
-          className="h-6 md:h-auto bg-white ml-2 md:m-auto ring-0"
+          className="h-8 text-xs md:text-base md:h-auto bg-white ml-2 md:m-auto ring-0"
+          classLabel="w-48 md:text-base text-sm"
           classContainer=""
         />
 
@@ -99,7 +103,8 @@ const InputForm: React.FC<InputFormProps> = ({ register, errors }) => {
           error={errors.studentID}
           label="رقم القيد"
           placeholder="رقم القيد"
-          className="h-6 md:h-auto bg-white ml-2 md:m-auto ring-0"
+          classLabel="w-48 md:text-base text-sm"
+          className="h-8 text-xs md:text-base md:h-auto bg-white ml-2 md:m-auto ring-0"
         />
       </div>
     </div>
