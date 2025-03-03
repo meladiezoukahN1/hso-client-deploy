@@ -1,0 +1,22 @@
+[
+  {
+    "title": "حجز غرفة للطالب",
+    "url": "students/bookroom"
+  },
+  {
+    "title": "طرد طالب ",
+    "url": "students/expelstudent"
+  },
+  {
+    "title": "عرض حالة الطلاب ",
+    "url": "students/studentsTable"
+  },
+  {
+    "title": "  تعديل الغرف ",
+    "url": "students/editroom"
+  },
+  {
+    "title": " قبول الطلبات ",
+    "url": "students/requests"
+  }
+]
