@@ -184,7 +184,7 @@ const ExpelForm: React.FC = () => {
         <div className="flex justify-center mt-10">
           <button
             onClick={handleExpelClick}
-            className="bg-[#1A3D61] text-white px-12 py-3 rounded-[9px] hover:bg-[#1A3D61]/90 transition-all text-[20px] font-semibold"
+            className="bg-[#1A3D61] text-white px-12 py-3 rounded-[9px] hover:bg-[#1A3D61]/90 transition-all font-semibold"
           >
             إلغاء تسجيل طالب{" "}
           </button>

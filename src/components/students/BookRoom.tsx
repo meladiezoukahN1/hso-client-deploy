@@ -80,7 +80,7 @@ const BookRoom = () => {
         <div className="flex justify-center mt-8 mb-[34px]">
           <button
             onClick={() => validateForm() && setIsDialogOpen(true)}
-            className="bg-primary-700 text-white px-8 py-1 rounded-[9px] hover:bg-primary-800 transition-all text-lg font-semibold"
+            className="bg-[#1A3D61] text-white px-12 py-3 rounded-[9px] hover:bg-[#1A3D61]/90 transition-all font-semibold"
           >
             تأكيد حجز الغرفة
           </button>

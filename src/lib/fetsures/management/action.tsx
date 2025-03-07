@@ -146,7 +146,7 @@ export const getAdvertisements = createAsyncThunk(
     const axios = await useAxios({ auth: true });
 
     try {
-      const res = await axios.get("/advertisements");
+      const res = await axios.get("/advertisement");
       return res.data as Advertisements[];
     } catch (e) {
       throw handleError(e);

@@ -32,7 +32,10 @@ const ImageCarousel = () => {
       className="w-full border-t-4 border-[#DBB459] border-b-2 border-b-[#00007F]"
       dir="ltr"
     >
-      <Carousels className="h-[300px] sm:h-[400px] md:h-[500px] lg:h-[610px]">
+      <Carousels
+        slideInterval={6000}
+        className="h-[300px] sm:h-[400px] md:h-[500px] lg:h-[610px]"
+      >
         {images.map((item, index) => (
           <div className="relative w-full h-full" key={index}>
             <Image
@@ -41,11 +44,11 @@ const ImageCarousel = () => {
                   ? item.src
                   : `${process.env.NEXT_PUBLIC_API_URL}/${item.src}`
               }
-              alt={`Slide ${index + 1}  `}
-              layout="fill"
-              objectFit="cover"
+              alt={`Slide ${index + 1}`}
+              width={1920} // تحديد العرض يدويًا
+              height={1080} // تحديد الارتفاع يدويًا
               priority={index === 0}
-              className="object-cover"
+              className="w-full h-full object-cover"
             />
 
             <div
@@ -67,9 +70,10 @@ const ImageCarousel = () => {
               {item.logo && (
                 <div className="flex items-center justify-center mt-4 md:mt-8">
                   <Image
-                    fill
                     src={item.logo}
                     alt="شعار الفريق"
+                    width={150} // ضبط الحجم يدويًا
+                    height={150}
                     className="w-24 sm:w-32 md:w-40 lg:w-48"
                   />
                 </div>

@@ -67,7 +67,7 @@ const RoomsForm: React.FC<RoomsFormProps> = ({
       setUserId("");
       updateFormData("studentId", "");
     }
-  }, [resetInputField, userID, updateFormData]);
+  }, [resetInputField]);
 
   const buildingsArray = Object.values(buildings || {});
   const selectedBuilding = buildingsArray.find(

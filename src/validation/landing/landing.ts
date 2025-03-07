@@ -69,28 +69,54 @@ export const ApplicationSchema = z
       .trim()
       .nonempty("الجنسية مطلوبة")
       .refine((data) => data !== "none", "قم باختيار الجنسية"),
-
-    DOB: z.string().trim().nonempty("تاريخ الميلاد مطلوب"),
+    DOB: z
+      .string()
+      .trim()
+      .nonempty("تاريخ الميلاد مطلوب")
+      .refine((date) => !isNaN(Date.parse(date)), "تاريخ الميلاد غير صالح")
+      .refine((date) => {
+        const dobDate = new Date(date);
+        const year = new Date();
+        const age = year.getFullYear() - dobDate.getFullYear();
+        return  age >= 16 && age <=18;
+      }, "يجب أن يكون تاريخ الميلاد بين 16 و 18 سنة"),
     birthCertificate: z
       .instanceof(File, { message: "يرجى تحميل الملف" })
+
       .refine((file) => file.size <= 5 * 1024 * 1024, {
         message: "الملف يجب أن يكون أقل من 5MB",
-      }),
+      })
+      .refine(
+        (file) => file.type === "application/pdf",
+        "يجب تحميل الملف بصيغة PDF"
+      ),
     residencyProof: z
       .instanceof(File, { message: "يرجى تحميل الملف" })
       .refine((file) => file.size <= 5 * 1024 * 1024, {
         message: "الملف يجب أن يكون أقل من 5MB",
-      }),
+      })
+      .refine(
+        (file) => file.type === "application/pdf",
+        "يجب تحميل الملف بصيغة PDF"
+      ),
     personalPhotos: z
       .instanceof(File, { message: "يرجى تحميل الملف" })
       .refine((file) => file.size <= 5 * 1024 * 1024, {
         message: "الملف يجب أن يكون أقل من 5MB",
-      }),
+      })
+      .refine(
+        (file) => file.type === "application/pdf",
+        "يجب تحميل الملف بصيغة PDF"
+      ),
     secondaryCertificate: z
       .instanceof(File, { message: "يرجى تحميل الملف" })
       .refine((file) => file.size <= 5 * 1024 * 1024, {
         message: "الملف يجب أن يكون أقل من 5MB",
-      }),
+      })
+      .refine(
+        (file) => file.type === "application/pdf",
+        "يجب تحميل الملف بصيغة PDF"
+      ),
   })
   .refine(
     (data) => {

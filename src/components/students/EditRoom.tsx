@@ -84,7 +84,7 @@ const EditRoom = () => {
       <TitleSection
         title="تعديل الغرف"
         className="text-[#1A3D61] mt-5 mr-[400px] mb-4"
-      />  
+      />
       <RoomsForm
         formData={formData}
         onFormDataChange={handleFormDataChange}
@@ -94,7 +94,7 @@ const EditRoom = () => {
       <div className="text-center p-6">
         <button
           onClick={handleEditClick}
-          className="bg-secondary text-white px-10 py-2 rounded-lg hover:bg-primary-600 transition-all text-base font-semibold"
+          className="bg-[#1A3D61] text-white px-12 py-3 rounded-[9px] hover:bg-[#1A3D61]/90 transition-all font-semibold"
         >
           تعديل الغرفة
         </button>

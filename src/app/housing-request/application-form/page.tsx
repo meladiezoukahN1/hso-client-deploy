@@ -105,8 +105,14 @@ const ApplicationForm = () => {
       } else {
         throw new Error(`فشل في إرسال الطلب. الحالة: ${response.status}`);
       }
-    } catch  {
-      toast.error("حدث خطأ أثناء إرسال الطلب.");
+    } catch (error: any) {
+      const errorData = error?.response?.data?.errors;
+      if (errorData) {
+        const messages = Object.values(errorData).flat().join(" ");
+        toast.error(messages);
+      } else {
+        toast.error("حدث خطأ أثناء إرسال الطلب.");
+      }
     } finally {
       setIsLoading(false);
       setIsDialogOpen(false);
@@ -119,8 +125,8 @@ const ApplicationForm = () => {
       {isLoading && <DailogLoading />}
 
       <div className="bg-primary-600 flex flex-col md:pr-40 justify-center border-t-4 border-yellow-400">
-        <h1 className="md:text-2xl font-bold text-white text-right md:p-4 p-1">
-          <span className="border-yellow-400 border-b-2 h-full md:p-2 p-0">
+        <h1 className="md:text-2xl font-bold text-white text-right p-1 md:py-2">
+          <span className="border-yellow-400 border-b-2 h-full p-1 md:py-2">
             تقديم طلب لإسكان
           </span>
         </h1>
