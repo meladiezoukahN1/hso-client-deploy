@@ -4,7 +4,10 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
   AcademicSeasonsPostRequest,
   BasicSupervisor2,
+  EditRoom,
   NewRoomList,
+  RoomA,
+  Select,
   StudentId,
   Students,
 } from "mangement";
@@ -26,7 +29,6 @@ import {
   AddRoom,
   GetByIdSupervisorResponse,
   SupervisorByid,
-  RoomByIdResponse,
 } from "mangement";
 import { BasicUser } from "next-auth";
 import { toast } from "sonner";
@@ -302,7 +304,6 @@ export const editUser = createAsyncThunk(
       });
       return res.data;
     } catch (e) {
-      console.error("Error during API call:", e);
       throw handleError(e);
     }
   }
@@ -359,7 +360,7 @@ export const editSupervisor = createAsyncThunk(
   async (editData: SupervisorByid) => {
     const axios = await useAxios({ auth: true });
     try {
-      const res = await axios.put("/api/update-supervisor/" + editData.id, {
+      const res = await axios.put("/api/supervisor/" + editData.id, {
         Fullname: editData.Fullname,
         Email: editData.Email,
         Phone: editData.Phone,
@@ -367,7 +368,6 @@ export const editSupervisor = createAsyncThunk(
       });
       return res.data;
     } catch (e) {
-      console.error("Error during API call:", e);
       throw handleError(e);
     }
   }
@@ -379,10 +379,9 @@ export const getBuildings = createAsyncThunk(
   async (): Promise<BuildingInfo[]> => {
     const axios = await useAxios({ auth: true });
     try {
-      const res = await axios.get("/api/building");
+      const res = await axios.get("/api/buildings");
       return res.data as BuildingInfo[];
     } catch (e) {
-      console.error("Error during API call:", e);
       throw handleError(e);
     }
   }
@@ -404,7 +403,6 @@ export const addBuilding = createAsyncThunk(
       const res = await axios.post("/api/building/", payload);
       return res.data;
     } catch (e) {
-      console.error("Error during API call:", e);
       throw handleError(e);
     }
   }
@@ -418,7 +416,19 @@ export const showBuilding = createAsyncThunk(
       const res = await axios.get("/api/showBuildings");
       return res.data as Building[];
     } catch (e) {
-      console.error("Error during API call:", e);
+      throw handleError(e);
+    }
+  }
+);
+
+export const SelectBuilding = createAsyncThunk(
+  "mangemnt/select-building",
+  async () => {
+    const axios = await useAxios({ auth: true });
+    try {
+      const res = await axios.get("/api/getBuildings");
+      return res.data;
+    } catch (e) {
       throw handleError(e);
     }
   }
@@ -426,11 +436,11 @@ export const showBuilding = createAsyncThunk(
 
 export const getBuildingById = createAsyncThunk(
   "mangemnt/getBuildingById",
-  async (id: number): Promise<Building> => {
+  async (id: number): Promise<Select[]> => {
     const axios = await useAxios({ auth: true });
     try {
-      const res = await axios.get(`/api/building/${id}/`);
-      return res.data as Building;
+      const res = await axios.get(`/api/building/${id}`);
+      return res.data as Select[];
     } catch (e) {
       throw handleError(e);
     }
@@ -445,7 +455,6 @@ export const editBuilding = createAsyncThunk(
       const res = await axios.put("/api/building/" + id, editData);
       return res.data;
     } catch (e) {
-      console.error("Error during API call:", e);
       throw handleError(e);
     }
   }
@@ -459,15 +468,14 @@ export const addRoom = createAsyncThunk(
     const axios = await useAxios({ auth: true });
     try {
       const payload = {
-        RoomNo: addRoomData.RoomNo.value,
-        FloorNo: addRoomData.FloorNo.value,
-        MaxResidents: addRoomData.MaxResidents.value,
-        buildingID: addRoomData.buildingID.value,
+        RoomNo: addRoomData.RoomNo.toString(),
+        FloorNo: addRoomData.FloorNo,
+        MaxResidents: addRoomData.MaxResidents,
+        buildingID: addRoomData.buildingID,
       };
       const res = await axios.post("/api/room/", payload);
       return res.data;
     } catch (e) {
-      console.error("Error during API call:", e);
       throw handleError(e);
     }
   }
@@ -488,11 +496,24 @@ export const getRooms = createAsyncThunk(
 
 export const getRoomsById = createAsyncThunk(
   "mangemnt/getRoomsById",
-  async (id: number): Promise<RoomByIdResponse> => {
+  async (id: number): Promise<RoomA> => {
     const axios = await useAxios({ auth: true });
     try {
       const res = await axios.get(`/api/room/${id}`);
-      return res.data as RoomByIdResponse;
+      return res.data as RoomA;
+    } catch (e) {
+      throw handleError(e);
+    }
+  }
+);
+
+export const editRoom = createAsyncThunk(
+  "mangemnt/editRoom",
+  async (editRoom: EditRoom) => {
+    const axios = await useAxios({ auth: true });
+    try {
+      const res = await axios.post("/api/room/" + editRoom.id, editRoom);
+      return res.data;
     } catch (e) {
       throw handleError(e);
     }

@@ -1,4 +1,3 @@
-"use client";
 import Cards from "./card-continer/cards";
 
 const Management = () => {

@@ -1,7 +1,7 @@
 "use client";
 
 import { UseFormRegister, FieldErrors } from "react-hook-form";
-import FormField from "./input-validate";
+import { FormField } from "@/components/ui";
 import { BuildingShowType } from "@/validation/managements/building";
 import React from "react";
 import Link from "next/link";
@@ -20,51 +20,63 @@ export default function EditableField({
   children,
 }: EditableFieldProps) {
   return (
-    <div className="flex gap-5">
-      <div className="flex flex-col gap-3 justify-center items-center">
-        <FormField
-          type="text"
-          label="اسم المبنى"
-          name="name_building"
-          register={register}
-          error={errors.name_building}
-          placeholder="أدخل الاسم الثلاثي"
-          className={` ${
-            disabled ? "bg-white border-0 ring-0" : ""
-          } h-9 bg-gray-200`}
-          disabled={disabled}
-          classLabel="w-44"
-        />
-        <FormField
-          type="text"
-          label="عدد الطوابق"
-          name="floors"
-          register={register}
-          error={errors.floors}
-          className={` ${
-            disabled ? "bg-white border-0 ring-0" : ""
-          } h-9 bg-gray-200`}
-          disabled={disabled}
-          classLabel="w-44"
-        />
+    <div className="flex flex-col gap-6">
+      <div className="flex gap-8 items-start">
+        <div className="flex flex-col gap-4 flex-1">
+          <FormField
+            type="text"
+            label="اسم المبنى"
+            name="name_building"
+            register={register}
+            error={errors.name_building}
+            className="h-10 bg-gray-100"
+            disabled={disabled}
+          />
 
-        <FormField
-          type="text"
-          label="الغرف المسكونة"
-          name="count_haunted_room"
-          register={register}
-          error={errors.count_haunted_room}
-          className={`bg-white border-0 ring-0 h-9`}
-          disabled
-          classLabel="w-52"
-        />
+          <FormField
+            type="text"
+            label="الغرف المتاحة"
+            name="count_room_available"
+            register={register}
+            error={errors.count_room_available}
+            className="h-10 bg-gray-100 border-0"
+            disabled
+          />
+          <FormField
+            type="text"
+            label="الغرف المسكونة"
+            name="count_haunted_room"
+            register={register}
+            error={errors.count_haunted_room}
+            className="h-10 bg-gray-100 border-0"
+            disabled
+          />
+        </div>
+        <div className="flex flex-col gap-4 flex-1">
+          <FormField
+            type="text"
+            label="عدد الطوابق"
+            name="floors"
+            register={register}
+            error={errors.floors}
+            className="h-10 bg-gray-100 border-0"
+            disabled
+          />
 
-        <div className={`flex justify-end items-center`}>
-          <div className="w-36 flex font-bold text-lg">موقع المبني:</div>
-          <div className="w-80">
+          <FormField
+            type="text"
+            label="إجمالي الغرف"
+            name="total_rooms"
+            register={register}
+            error={errors.total_rooms}
+            className="h-10 bg-gray-100 border-0"
+            disabled
+          />
+          <div className="flex items-center gap-4 mr-[3%]">
+            <span className="font-bold">موقع المبنى:</span>
             <Link
               href={"#"}
-              className="text-white px-7 py-1 bg-primary-500 hover:bg-primary-600 rounded-md "
+              className="text-white w-3/4 text-center py-2 bg-blue-600 hover:bg-blue-700 rounded-md"
             >
               عرض الموقع
             </Link>
@@ -72,33 +84,7 @@ export default function EditableField({
         </div>
       </div>
 
-      <div className="inset-y-0 left-1/2 transform -translate-x-1/2 w-1 bg-gray-300"></div>
-
-      <div className="flex flex-col gap-3 justify-center items-center">
-        <FormField
-          type="text"
-          label="الغرف المتاحة"
-          name="count_room_available"
-          register={register}
-          error={errors.count_room_available}
-          className={`bg-white border-0 ring-0 h-9`}
-          disabled
-          classLabel="w-44"
-        />
-
-        <FormField
-          type="text"
-          label="اجمالي الغرف"
-          name="total_rooms"
-          register={register}
-          error={errors.total_rooms}
-          placeholder="أدخل الاسم الثلاثي"
-          className={`bg-white border-0 ring-0 h-9`}
-          disabled
-          classLabel="w-44"
-        />
-        {children}
-      </div>
+      {children}
     </div>
   );
 }

@@ -23,7 +23,7 @@ const FormField = <T extends Record<string, unknown>>({
   placeholder,
   name,
   register,
-  className = "border w-80 h-10",
+  className = "border h-10",
   error,
   valueAsNumber,
   classWrapper,

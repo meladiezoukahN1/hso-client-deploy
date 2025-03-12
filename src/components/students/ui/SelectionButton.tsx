@@ -14,8 +14,10 @@ const SelectionButton = ({
   return (
     <button
       onClick={onClick}
-      className={`w-36 py-2 rounded-lg hover:bg-secondary-400 hover:border-secondary-400 hover:text-white font-bold border-2 transition-colors ${
-        selected ? "border-secondary-500 bg-secondary-500 text-white " : " bg-[#D9D9D9] border-[#D9D9D9] "
+      className={`w-36 py-2 rounded-lg hover:bg-primary-600 hover:border-primary-600 hover:text-white font-bold border-2 transition-colors ${
+        selected
+          ? "border-primary-700 bg-primary-700 text-white "
+          : " bg-[#D9D9D9] border-[#D9D9D9] "
       } ${className}`}
     >
       {children}

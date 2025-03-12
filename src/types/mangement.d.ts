@@ -5,9 +5,12 @@ declare module "mangement" {
     buildings: IBuilding;
     supervisors: ISupervisor;
     rooms: IRoom;
-    roomSelected: RoomByIdResponse | null;
+    roomSelected: RoomA | null;
     isLoading: boolean;
+    RoomPutRequest: RoomPutRequest;
     error: string | null;
+    selectBuilding: Select[];
+    getRoomsSelect: Select[];
   }
 
   import { Facultity } from "./mangement.d";
@@ -17,6 +20,11 @@ declare module "mangement" {
     id: number;
     name: string;
     image: string;
+  }
+
+  interface Select {
+    value: number;
+    label: string;
   }
 
   interface FormData {
@@ -201,12 +209,12 @@ declare module "mangement" {
   }
 
   interface SupervisorByid {
+    BuildingId?: number;
     id: number;
     Fullname: string;
     Email: string;
     Phone: string;
     address: string;
-    Building: number;
   }
 
   interface GetByIdSupervisorResponse {
@@ -252,7 +260,7 @@ declare module "mangement" {
     firstname: string;
     midname: string;
     lastname: string;
-    fileNo: number;
+    fileNo?: number;
     faculty_name: string;
     national_number: string;
     nationality: string;
@@ -280,6 +288,7 @@ declare module "mangement" {
     count_room_available: number;
     count_haunted_room: number;
     supervisor: BasicSupervisor[];
+    supervisor: BasicSupervisor2[];
     url: string;
   }
 
@@ -331,6 +340,7 @@ declare module "mangement" {
   }
 
   interface RoomA {
+    Room_id: number;
     IsAvailable: number;
     IsFull: number;
     FloorNo: number;
@@ -342,6 +352,8 @@ declare module "mangement" {
     Room_id: number;
     students: RoomStudent[];
   }
+
+  // interface EditRoom
 
   interface RoomStudent {
     fullname: string;
@@ -370,19 +382,31 @@ declare module "mangement" {
     roomSelectList: NewRoomList[];
   }
 
-  export interface AddRoom {
-    RoomNo: FormField;
-    FloorNo: FormField;
-    MaxResidents: FormField;
-    buildingID: FormField;
+  interface AddRoom {
+    RoomNo: number;
+    FloorNo: number;
+    MaxResidents: number;
+    buildingID: string;
   }
-
   interface NewRoomList {
     value: number;
     label: string;
+    buildingId: number;
   }
 
   interface RoomByIdResponse {
     room: RoomA[];
+  }
+  interface RoomPutRequest {
+    RoomNo: string;
+    FloorNo: number;
+    MaxResidents: number;
+  }
+
+  interface EditRoom {
+    id: number;
+    RoomNo: string;
+    FloorNo: number;
+    MaxResidents: number;
   }
 }

@@ -77,7 +77,6 @@ const StudentsTable = () => {
     return <LoadingIcon ClassName="h-96" />;
   }
 
-  // Prepare data with index for the table
   const dataWithIndex = filteredData.map((item, index) => ({
     ...item,
     index: index + 1,
@@ -90,9 +89,9 @@ const StudentsTable = () => {
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
   return (
-    <div className="pt-8 px-24">
-      <h1 className="text-3xl font-bold text-center">عرض الطلبة</h1>
-      <div className="mt-10 flex justify-between">
+    <div className="pt-8 md:px-24">
+      <h1 className="md:text-3xl text-xl font-bold text-center">عرض الطلبة</h1>
+      <div className="mt-10 flex justify-between gap-1">
         <SelectValueComponents
           title="المدينة"
           data={cityOptions}
@@ -110,7 +109,7 @@ const StudentsTable = () => {
         />
       </div>
       <div className="mt-4">
-        <GeneralTable columns={columnsCityStudents} data={currentItems} />
+        <GeneralTable classNameTH="py-1 md:py-3" columns={columnsCityStudents} data={currentItems} />
       </div>
       <div className="mt-4 flex justify-center">
         <PaginationComponent

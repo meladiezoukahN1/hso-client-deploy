@@ -7,7 +7,6 @@ import { RxPerson } from "react-icons/rx";
 import { LuBedSingle, LuFolders } from "react-icons/lu";
 import ComponentChart from "@/components/ui/RadialChart";
 
-
 export default function DashboardCards() {
   const [statistics, setStatistics] = useState<CardProps[]>([]);
   const { statistics: statisticsSate } = useAppSelector((state) => state.home);
@@ -27,7 +26,6 @@ export default function DashboardCards() {
           count: statisticsSate.available_rooms,
           max: 20,
           color: "#DB0000",
-
           icon: LuBedSingle,
         },
         {
@@ -48,10 +46,13 @@ export default function DashboardCards() {
       </div>
     );
   }
+
   return (
     <div>
-      <h1 className="font-cairo font-bold text-3xl mb-6 mr-10">إحصائيات :</h1>
-      <div className="flex gap-5 justify-center">
+      <h1 className="font-cairo font-bold text-2xl md:text-3xl mb-4 md:mb-6 mr-4 md:mr-10">
+        إحصائيات :
+      </h1>
+      <div className="flex flex-col md:flex-row gap-4 md:gap-5 justify-center">
         {statistics.map((card, index) => (
           <ComponentChart
             key={index}
@@ -59,7 +60,7 @@ export default function DashboardCards() {
             count={card.count}
             max={card.max || 0}
             icon={card.icon}
-            color={card.color || "##1A3D61"}
+            color={card.color || "#1A3D61"}
           />
         ))}
       </div>

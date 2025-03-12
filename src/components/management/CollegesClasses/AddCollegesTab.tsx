@@ -67,9 +67,9 @@ function FacultityManagement() {
   };
 
   return (
-    <div className="py-10 text-right">
+    <div className="mt-8 py-10 text-right">
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="flex gap-x-8">
+        <div className="flex gap-x-8 flex-col md:flex-row gap-y-4">
           <FormField
             label="اسم الكلية"
             type="text"
@@ -77,29 +77,31 @@ function FacultityManagement() {
             name="name"
             register={register}
             error={errors.name}
+            classLabel="w-44 text-sm md:w-30 md:text-base justify-start"
           />
           <FormField
-            label="عدد الفصول الدراسية"
+            label="عدد الفصول "
             type="text"
             placeholder="أدخل عدد الفصول الدراسية"
             name="semCount"
             register={register}
             error={errors.semCount}
+            classLabel="w-44 text-sm md:w-36 md:text-base text-sm justify-start"
           />
         </div>
-        <div className="flex items-center gap-x-4 mt-8">
-          <label htmlFor="image" className="font-bold">
-            قم بإضافة شعار الكلية:
+        <div className="flex items-center gap-x-4 md:mt-8">
+          <label htmlFor="image" className="font-bold w-44 md:w-30">
+            شعار الكلية:
           </label>
           <div className="w-72 h-20">
-            <label
-              htmlFor="image"
-              className="w-full h-full flex items-center p-2 text-center justify-center cursor-pointer bg-gray-100 rounded-md hover:bg-gray-300 border border-secondary text-secondary font-bold"
-            >
-              {imageFile && imageFile.name
-                ? imageFile.name
-                : "تحميل"}
-            </label>
+            <div className="w-full h-full flex items-center justify-center">
+              <label
+                htmlFor="image"
+                className="w-full h-1/2 flex items-center px-2 text-center justify-center cursor-pointer bg-gray-100 rounded-md hover:bg-gray-300 border border-secondary text-secondary font-bold"
+              >
+                {imageFile && imageFile.name ? imageFile.name : "تحميل"}
+              </label>
+            </div>
             <Input
               id="image"
               type="file"

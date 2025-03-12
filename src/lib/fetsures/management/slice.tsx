@@ -30,6 +30,8 @@ import {
   editStudent,
   disabledUser,
   getRoomsById,
+  SelectBuilding,
+  editRoom,
 } from "./action";
 import { toast } from "sonner";
 
@@ -79,12 +81,18 @@ const initialState: MangementState = {
     buildingSelected: null,
     bulidingInfoList: [],
   },
-  // faculties: [],
+  RoomPutRequest: {
+    RoomNo: "",
+    FloorNo: 0,
+    MaxResidents: 0,
+  },
   rooms: {
     roomsList: [],
     roomSelectList: [],
   },
   roomSelected: null,
+  selectBuilding: [],
+  getRoomsSelect: [],
 };
 
 const managementSlice = createSlice({
@@ -299,11 +307,8 @@ const managementSlice = createSlice({
         state.status = "succeeded";
         toast.success("تم تعديل المستخدم بنجاح");
       })
-      .addCase(editUser.rejected, (state, action) => {
+      .addCase(editUser.rejected, (state) => {
         state.status = "failed";
-        toast.dismiss();
-        state.error = action.error.message || "حدث خطأ أثناء تعديل المستخدم";
-        toast.error(state.error);
       })
 
       .addCase(createAccount.pending, (state) => {
@@ -327,7 +332,7 @@ const managementSlice = createSlice({
       })
       .addCase(addSupervisor.fulfilled, (state) => {
         state.status = "succeeded";
-        toast.success("تم إضافة المستخدم بنجاح");
+        toast.success("تم إضافة المشرف بنجاح");
       })
       .addCase(addSupervisor.rejected, (state, action) => {
         state.status = "failed";
@@ -354,16 +359,13 @@ const managementSlice = createSlice({
       })
       .addCase(addBuilding.pending, (state) => {
         state.isLoading = true;
-        toast.loading("جاري إضافة المبنى...");
       })
       .addCase(addBuilding.fulfilled, (state) => {
         state.isLoading = false;
         toast.success("تم إضافة المبنى بنجاح!");
       })
-      .addCase(addBuilding.rejected, (state, action) => {
+      .addCase(addBuilding.rejected, (state) => {
         state.isLoading = false;
-        state.error = action.error.message || "حدث خطأ أثناء إضافة المبنى";
-        toast.error(state.error);
       })
       .addCase(getBuildings.pending, (state) => {
         state.isLoading = true;
@@ -387,8 +389,8 @@ const managementSlice = createSlice({
       .addCase(getBuildingById.fulfilled, (state, action) => {
         state.isLoading = false;
         toast.dismiss();
-        state.buildings.buildingSelected = action.payload;
         toast.success("تم جلب بيانات المبنى");
+        state.getRoomsSelect = action.payload;
       })
       .addCase(getBuildingById.rejected, (state, action) => {
         state.isLoading = false;
@@ -522,6 +524,28 @@ const managementSlice = createSlice({
         state.isLoading = false;
         toast.dismiss();
         state.error = action.error.message || "";
+      })
+      .addCase(SelectBuilding.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(SelectBuilding.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.selectBuilding = action.payload;
+      })
+      .addCase(SelectBuilding.rejected, (state) => {
+        state.status = "failed";
+      })
+
+      .addCase(editRoom.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(editRoom.fulfilled, (state) => {
+        state.isLoading = false;
+        toast.dismiss();
+        toast.success("تم تعديل الغرفة بنجاح!");
+      })
+      .addCase(editRoom.rejected, (state) => {
+        state.isLoading = false;
       });
   },
 });

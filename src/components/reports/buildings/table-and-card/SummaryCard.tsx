@@ -6,7 +6,7 @@ export const SummaryCard = ({
   summary: BuildingData["summary"];
 }) => {
   return (
-    <div className="rounded-lg px-8 py-4 border border-primary-500 bg-[#FAF7F2] mt-12 w-1/3">
+    <div className="rounded-lg px-8 py-4 border border-primary-500 bg-[#FAF7F2] mt-12 w-full md:w-1/3">
       <h2 className="text-lg font-bold text-secondary">إجمالي</h2>
       <ul className="mt-4 text-right text-sm">
         <li className="my-5 flex justify-between items-center">

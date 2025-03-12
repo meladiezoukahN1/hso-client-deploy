@@ -1,5 +1,6 @@
+// FormField.tsx
 import { UseFormRegister, FieldError, Path } from "react-hook-form";
-import { Input } from "./input";
+import { Input } from "@/components/ui/input";
 
 export type FormFieldProps<T extends Record<string, unknown>> = {
   type: string;
@@ -21,28 +22,38 @@ const FormField = <T extends Record<string, unknown>>({
   placeholder,
   name,
   register,
-  className = "border w-80 h-10",
+  className = "border h-10",
+  classLabel,
+  label,
   error,
   valueAsNumber,
   classWrapper,
-  classLabel,
-  label,
   classContainer,
   ...rest
 }: FormFieldProps<T>) => {
   return (
-    <div className={`flex flex-col ${classWrapper}`}>
-      <div className={`flex gap-x-4 items-center ${classContainer}`}>
-        {label && <div className={`font-bold ${classLabel}`}>{label}:</div>}
+    <div className={`flex flex-col items-start ${classWrapper} w-full`}>
+      <div
+        className={`grid grid-cols-[minmax(120px,1fr)_3fr] gap-x-4 items-center w-full ${classContainer}`}
+      >
+        {label && (
+          <label
+            htmlFor={name}
+            className={`font-bold text-right whitespace-nowrap pr-2 h-10 flex items-center justify-start ${classLabel}`}
+          >
+            {label}:
+          </label>
+        )}
         <Input
           type={type}
           placeholder={placeholder || ""}
           {...register(name, { valueAsNumber })}
-          className={`ring-1 ring-secondary focus:ring-2 focus:ring-secondary resize-none rounded ${className}`}
+          className={`rounded bg-orange-50 w-full ${className}`}
           {...rest}
         />
+        {label && <span></span>}
+        <span className="mt-2 text-xs text-danger">{error?.message}</span>
       </div>
-      <span className="mt-2 text-xs text-danger">{error?.message}</span>
     </div>
   );
 };

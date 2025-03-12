@@ -73,37 +73,42 @@ const StudentsTable: React.FC = () => {
   const totalPages = Math.ceil(filterStateStudent.length / itemsPerPage);
 
   return (
-    <div className="font-bold mt-5">
-      <div className="flex items-center mb-4">
-        <TitleSection title=" قائمة الطلبة :" className="mr-4 text-[#1A3D61]" />
-        <div className="flex justify-between space-x-4">
+    <div className="font-bold mt-5 px-2 md:px-10">
+      <div className="flex flex-col md:flex-row items-center mb-4 space-y-2 md:space-y-0">
+        <TitleSection
+          title=" قائمة الطلبة :"
+          className="text-[#1A3D61] mr-0 md:mr-4 md:w-72"
+        />
+        <div className="flex flex-col md:flex-row gap-4 w-full">
           <SelectValueComponents
             title="الكلية"
             data={filterCollage}
             onValueChange={handelCollage}
-            ClassName="mr-36 ml-14 w-80"
+            ClassName="w-full md:w-80"
           />
           <SelectValueComponents
             title="الحالة الدراسية"
             data={stateStudentSelect}
             onValueChange={handelStatus}
-            ClassName="w-80"
+            ClassName="w-full md:w-80"
           />
         </div>
       </div>
 
       {status === "succeeded" ? (
         <>
-          <div dir="rtl" className="mx-10">
+          <div dir="rtl" className=" md:mx-10">
             <GeneralTable
               columns={columns}
               data={currentItems}
-              classNameTH={"p-2"}
+              classNameTH="p-2"
               renderCell={(row, column) => {
                 if (column === "studentID") {
                   return (
                     <Link href={`/students/studentsTable/${row["fileNo"]}`}>
-                      <Button className="w-24 bg-primary-700 hover:bg-primary-500">عرض</Button>
+                      <Button className="w-full md:w-24 bg-primary-700 hover:bg-primary-500">
+                        عرض
+                      </Button>
                     </Link>
                   );
                 }
@@ -116,11 +121,13 @@ const StudentsTable: React.FC = () => {
               }}
             />
           </div>
-          <PaginationComponent
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={setCurrentPage}
-          />
+          <div className="mt-4">
+            <PaginationComponent
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={setCurrentPage}
+            />
+          </div>
         </>
       ) : (
         <LoadingIcon ClassName="h-96" />

@@ -67,6 +67,7 @@ const RoomsForm: React.FC<RoomsFormProps> = ({
       setUserId("");
       updateFormData("studentId", "");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [resetInputField]);
 
   const buildingsArray = Object.values(buildings || {});

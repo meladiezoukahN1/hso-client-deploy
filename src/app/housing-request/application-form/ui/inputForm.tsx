@@ -2,7 +2,6 @@ import React from "react";
 import { UseFormRegister, FieldErrors } from "react-hook-form";
 import { ApplicationFormValues } from "@/validation/landing/landing";
 import { FormField } from "@/components/ui";
-
 interface InputFormProps {
   register: UseFormRegister<ApplicationFormValues>;
   errors: FieldErrors<ApplicationFormValues>;
@@ -15,7 +14,7 @@ const InputForm: React.FC<InputFormProps> = ({ register, errors }) => {
         أولاً - قم بتعبئة البيانات الشخصية
       </h3>
 
-      <div className="grid md:grid-cols-2 gap-4">
+      <div className="grid md:grid-cols-2 gap-4 px-2">
         <FormField
           type="text"
           name="FirstName"

@@ -4,14 +4,26 @@ import { z } from "zod";
 
 export const AddUserSchema = z
   .object({
-    FullName: z.string().nonempty("الاسم الكامل مطلوب"),
+    FullName: z
+      .string()
+      .trim()
+      .nonempty("الاسم الكامل مطلوب")
+      .regex(/^[\u0600-\u06FF\s]+$/, "يجب أن يكون الاسم باللغة العربية فقط")
+      .refine((name) => name.split(/\s+/).length >= 3, {
+        message: "يجب أن يحتوي الاسم على 3 أسماء على الأقل",
+      })
+      .refine((name) => name.split(/\s+/).length <= 6, {
+        message: "يجب ألا يحتوي الاسم على أكثر من 6 أسماء",
+      }),
     username: z
       .string()
+      .trim()
       .nonempty("اسم المستخدم مطلوب")
       .min(8, "اسم المستخدم يجب أن يكون أكثر من 8 أحرف"),
     address: z.string().nonempty("العنوان مطلوب"),
     phone: z
       .string()
+      .trim()
       .nonempty("رقم الهاتف مطلوب")
       .regex(/^\d+$/, "رقم الهاتف يجب أن يحتوي على أرقام فقط"), // مثال على التحقق من الأرقام فقط
     email: z

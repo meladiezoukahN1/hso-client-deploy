@@ -2,40 +2,38 @@
 
 import { UseFormRegister, FieldErrors } from "react-hook-form";
 import { FormField } from "@/components/ui";
-import { EditUserType } from "@/validation/managements/user";
+import { EditSuperVisorType } from "@/validation/managements/supervisor";
 
-interface EditableFieldProps {
-  register: UseFormRegister<EditUserType>;
-  errors: FieldErrors<EditUserType>;
+interface EditFieldProps {
+  register: UseFormRegister<EditSuperVisorType>;
+  errors: FieldErrors<EditSuperVisorType>;
   disabled: boolean;
 }
 
-export default function EditableField({
+export default function EditField({
   register,
   errors,
   disabled,
-}: EditableFieldProps) {
+}: EditFieldProps) {
   return (
-    <div className="grid grid-cols-1 md:flex md:gap-6 relative">
-      <div className="flex flex-col gap-6 md:border-l-4 border-secondary md:pl-2">
+    <div className="md:flex md:gap-6 relative">
+      <div className="flex flex-col gap-6">
         <FormField
           label="الاسم الثلاثي"
           type="text"
           placeholder="أدخل الاسم الثلاثي"
-          name="FullName"
+          name="Fullname"
           register={register}
-          error={errors.FullName}
-          disabled={disabled}
+          error={errors.Fullname}
           className={`${disabled ? "border-0 ring-0" : ""}`}
         />
         <FormField
-          label="اسم المستخدم"
+          label="العنوان"
           type="text"
-          placeholder="اسم المستخدم"
-          name="username"
+          placeholder="العنوان"
+          name="address"
           register={register}
-          error={errors.username}
-          disabled={disabled}
+          error={errors.address}
           className={`${disabled ? "border-0 ring-0" : ""}`}
         />
       </div>
@@ -45,20 +43,18 @@ export default function EditableField({
           label="رقم الهاتف"
           type="text"
           placeholder="أدخل رقم الهاتف"
-          name="phone"
+          name="Phone"
           register={register}
-          error={errors.phone}
-          disabled={disabled}
+          error={errors.Phone}
           className={`${disabled ? "border-0 ring-0" : ""}`}
         />
         <FormField
           label="البريد الالكتروني"
           type="text"
           placeholder="أدخل البريد الالكتروني"
-          name="email"
+          name="Email"
           register={register}
-          error={errors.email}
-          disabled={disabled}
+          error={errors.Email}
           className={`${disabled ? "border-0 ring-0" : ""}`}
         />
       </div>

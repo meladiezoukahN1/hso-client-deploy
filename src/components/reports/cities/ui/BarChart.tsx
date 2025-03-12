@@ -1,3 +1,4 @@
+// components/reports/ui/BarChart.jsx
 import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -12,14 +13,12 @@ import {
 const legendMargin = {
   id: "legendMargin",
   beforeInit(chart: ChartJS) {
-    if (!chart.legend) return; // Critical safety check
-
+    if (!chart.legend) return;
     const legend = chart.legend;
     const originalFit = legend.fit;
-
     legend.fit = function () {
-      originalFit.bind(this)(); // Use bound this context
-      this.height += 20; // Safely modify height
+      originalFit.bind(this)();
+      this.height += 20;
     };
   },
 };
@@ -31,7 +30,7 @@ ChartJS.register(
   Title,
   Tooltip,
   Legend,
-  legendMargin // Register the custom plugin
+  legendMargin
 );
 
 interface BarChartProps {
@@ -66,21 +65,21 @@ export const BarChart: React.FC<BarChartProps> = ({
     plugins: {
       legend: {
         position: "top" as const,
-        align: "start" as const, // Positions the legend in the top-left
+        align: "start" as const,
       },
     },
     scales: {
       x: {
         grid: {
-          display: false, // Hides the x-axis grid lines
+          display: false,
         },
       },
       y: {
         grid: {
-          display: false, // Hides the y-axis grid lines
+          display: false,
         },
         ticks: {
-          callback: (value: number | string) => `${value}%`, // Formats the ticks as percentages
+          callback: (value: number | string) => `${value}%`,
         },
       },
     },
@@ -88,7 +87,7 @@ export const BarChart: React.FC<BarChartProps> = ({
 
   return (
     <Bar
-      className="mt-6 border border-primary-500 bg-[#FAF7F2] p-4 rounded-lg font-semibold border-secondary"
+      className="mt-6 border border-primary-500 bg-[#FAF7F2] rounded-lg font-semibold border-secondary"
       data={data}
       options={options}
     />

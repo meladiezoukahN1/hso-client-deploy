@@ -37,7 +37,7 @@ export const EditSuperVisorSchema = z
   .object({
     id: z.number(),
 
-    FullName: z
+    Fullname: z
       .string()
       .nonempty("الاسم الكامل مطلوب")
       .regex(/^[\u0600-\u06FF\s]+$/, "يجب أن يكون الاسم باللغة العربية فقط")
@@ -48,19 +48,13 @@ export const EditSuperVisorSchema = z
         message: "يجب ألا يحتوي الاسم على أكثر من 6 أسماء",
       }),
 
-    username: z
-      .string()
-      .nonempty("اسم المستخدم مطلوب")
-      .regex(/^[A-Za-z]+$/, "يجب أن يحتوي اسم المستخدم على حروف إنجليزية فقط")
-      .min(6, "يجب أن يحتوي اسم المستخدم على 6 أحرف على الأقل")
-      .refine((username) => /[a-z]/.test(username) && /[A-Z]/.test(username), {
-        message: "يجب أن يحتوي اسم المستخدم على حروف كبيرة وصغيرة",
-      }),
+    address: z.string(),
 
-    phone: z.string().nonempty("رقم الهاتف مطلوب"),
-    email: z.string().email("البريد الإلكتروني غير صالح"),
+    Phone: z.string().nonempty("رقم الهاتف مطلوب"),
+    Email: z.string().email("البريد الإلكتروني غير صالح"),
+    
   })
-  .refine((data) => validateLibyanPhoneNumber(data.phone), {
+  .refine((data) => validateLibyanPhoneNumber(data.Phone), {
     message: "تاكد من صحة رقم الهاتف",
     path: ["phone"],
   });

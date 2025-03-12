@@ -160,24 +160,30 @@ const SelectSearchReport: React.FC<SelectSearchReportProps> = ({
   onChange,
 }) => {
   return (
-    <select
+    <Select
       value={selectedValue}
-      onChange={(e) =>
-        onChange(
-          dataSelecte.find((option) => option.label === e.target.value) || {
-            value: 0,
-            label: "",
-          }
-        )
-      }
+      onValueChange={(value) => {
+        const selectedOption = dataSelecte.find(
+          (option) => option.label === value
+        );
+        if (selectedOption) {
+          onChange(selectedOption);
+        }
+      }}
     >
-      <option value="">{title}</option>
-      {dataSelecte.map((option) => (
-        <option key={option.value} value={option.label}>
-          {option.label}
-        </option>
-      ))}
-    </select>
+      <SelectTrigger className="w-full">
+        <SelectValue placeholder={title} />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectGroup>
+          {dataSelecte.map((option) => (
+            <SelectItem key={option.value} value={option.label}>
+              {option.label}
+            </SelectItem>
+          ))}
+        </SelectGroup>
+      </SelectContent>
+    </Select>
   );
 };
 

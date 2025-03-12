@@ -18,7 +18,7 @@ export default function EditUserTab() {
   const [isOpenDisable, setIsOpenDisable] = useState(false);
   const [isUserSelected, setIsUserSelected] = useState(false);
   const dispatch = useAppDispatch();
-  const { status, error } = useAppSelector((state) => state.mangement);
+  const { status } = useAppSelector((state) => state.mangement);
   const { userlist, userSelected } = useAppSelector(
     (state) => state.mangement.user
   );
@@ -58,7 +58,6 @@ export default function EditUserTab() {
       await dispatch(getUsers());
       reset();
     } catch {
-      toast.error(`${error}`);
     } finally {
       setIsOpen(false);
     }
@@ -77,7 +76,6 @@ export default function EditUserTab() {
       await dispatch(getUsers());
       reset();
     } catch {
-      toast.error(`${error}`);
     } finally {
       setIsOpen(false);
     }
@@ -99,7 +97,7 @@ export default function EditUserTab() {
   };
 
   return (
-    <div className="p-2 mt-8">
+    <div className="p-2 mt-8 ml-[17%]">
       <UserSelector userlist={userlist} />
       <form onSubmit={handleSubmit(onSubmit, onError)}>
         <InputFields
@@ -108,12 +106,15 @@ export default function EditUserTab() {
           disabled={!isUserSelected}
         />
         <div className="flex justify-center items-center gap-12 mt-12">
-          <Button type="submit" className="bg-secondary text-white w-60">
+          <Button
+            type="submit"
+            className="bg-primary-600 hover:bg-primary-700 text-white w-60"
+          >
             قبول التغييرات
           </Button>
           <Button
             type="button"
-            className="bg-orange-50 ring-1 ring-primary-600 text-black w-60"
+            className="bg-orange-50 ring-1 hover:bg-orange-200 ring-primary-600 text-black w-60"
             onClick={() =>
               userSelected?.id
                 ? setIsOpenDisable(true)

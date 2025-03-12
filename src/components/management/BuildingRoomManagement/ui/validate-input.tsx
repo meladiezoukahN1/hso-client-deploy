@@ -1,82 +1,86 @@
-import { HTMLInputTypeAttribute, useState } from "react";
-import { Input } from "./input";
+import { Input } from "@/components/ui/input";
+import { UseFormRegister, FieldError, Path } from "react-hook-form";
 import validateEmail from "@/hooks/validate-email";
 import validateLibyanPhoneNumber from "@/hooks/validate-phone";
 
-interface Prop {
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  value: string | number;
-  labelName: string;
-  inputName: string;
-  type?: HTMLInputTypeAttribute;
+interface FormFieldProps<T extends Record<string, unknown>> {
+  type: string;
   placeholder?: string;
-  isValaid: (e: boolean) => void;
+  name: Path<T>;
+  register: UseFormRegister<T>;
+  error?: FieldError;
+  valueAsNumber?: boolean;
+  className?: string;
+  classWrapper?: string;
+  classLabel?: string;
+  label?: string;
+  classContainer?: string;
+  [key: string]: unknown;
 }
 
-const ValidateInput = ({
-  inputName,
-  labelName,
-  onChange,
-  value,
-  type = "text",
+const ValidateFormField = <T extends Record<string, unknown>>({
+  type,
   placeholder,
-  isValaid,
-}: Prop) => {
-  const [validation, setValidation] = useState(false);
-  const [hint, setHint] = useState<string | null>(null);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const eValue = e.target.value;
-    onChange(e);
-
+  name,
+  register,
+  className = "border h-10",
+  classLabel,
+  label,
+  error,
+  valueAsNumber,
+  classWrapper,
+  classContainer,
+  ...rest
+}: FormFieldProps<T>) => {
+  const validateField = (value: string) => {
     switch (type) {
-      case "text":
-        setValidation(eValue.trim() === "");
-        setHint(eValue.trim() === "" ? "يجب ملء هذا الحقل!" : null);
-        isValaid(eValue.trim() !== "");
-        break;
       case "email":
-        setValidation(!validateEmail(eValue));
-        setHint(!validateEmail(eValue) ? "example@email.com" : null);
-        isValaid(validateEmail(eValue));
-        break;
+        return validateEmail(value) || "example@email.com";
       case "tel":
-        setValidation(!validateLibyanPhoneNumber(eValue));
-        setHint(
-          !validateLibyanPhoneNumber(eValue) ? "رقم الهاتف غير صحيح" : null
-        );
-        isValaid(validateLibyanPhoneNumber(eValue));
-        break;
+        return validateLibyanPhoneNumber(value) || "رقم الهاتف غير صحيح";
       default:
-        setValidation(false);
-        setHint(null);
-        isValaid(true);
+        return true;
     }
   };
 
   return (
-    <div className="flex flex-col items-start">
-      <div className="flex items-center">
-        <label className="text-right w-24 text-base font-medium mr-2">
-          {labelName}
-        </label>
+    <div className={`flex flex-col items-start ${classWrapper} w-full`}>
+      <div
+        className={`grid grid-cols-[minmax(120px,1fr)_3fr] gap-x-4 items-center w-full ${classContainer}`}
+      >
+        {label && (
+          <label
+            htmlFor={name}
+            className={`font-bold text-right whitespace-nowrap pr-2 h-10 flex items-center justify-end ${classLabel}`}
+          >
+            {label}:
+          </label>
+        )}
         <Input
           type={type}
-          name={inputName}
-          value={value}
-          onChange={handleChange}
-          className={`${
-            validation ? "border border-danger" : "border border-secondary"
-          } 
-            w-60 h-8 px-2 rounded-md text-sm
-            focus:outline-none focus:ring-1 focus:ring-primary-500
-          `}
-          placeholder={placeholder}
+          placeholder={placeholder || ""}
+          {...register(name, {
+            valueAsNumber,
+            validate: (value) => {
+              if (typeof value === "string") {
+                return validateField(value);
+              }
+              return true;
+            },
+          })}
+          className={`rounded bg-orange-50 w-full ${className} ${
+            error ? "border-danger" : "border-secondary"
+          }`}
+          {...rest}
         />
       </div>
-      {hint && <span className="text-xs text-danger mt-1 mr-36">{hint}</span>}
+      {error && (
+        <span className="mt-2 text-xs text-danger mr-36">
+          {error.message || "يجب ملء هذا الحقل!"}
+        </span>
+      )}
     </div>
   );
 };
 
-export default ValidateInput;
+export default ValidateFormField;

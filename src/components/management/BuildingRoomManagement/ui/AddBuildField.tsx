@@ -1,7 +1,7 @@
 "use client";
 
 import { UseFormRegister, FieldErrors } from "react-hook-form";
-import FormField from "./input-validate";
+import { FormField } from "@/components/ui";
 import { AddBuildingType } from "@/validation/managements/building";
 import React from "react";
 

@@ -67,7 +67,7 @@ const BookRoom = () => {
 
       <TitleSection
         title="حجز غرفة لطالب"
-        className="text-3xl font-semibold text-[#1A3D61] mr-[400px]"
+        className="text-3xl font-semibold text-[#1A3D61] md:mr-[400px]"
       />
 
       <div className="bg-white rounded-lg py-4 shadow-lg mt-4">

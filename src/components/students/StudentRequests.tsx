@@ -14,10 +14,10 @@ const StudentRequests: React.FC = () => {
   const dispatch = useAppDispatch();
   const { requestes, loading } = useAppSelector((state) => state.student);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(7);
+  const itemsPerPage = 7; // Fixed items per page
 
   useEffect(() => {
-    dispatch(PendingRequests());
+    dispatch(PendingRequests()); // Fetch requests on component mount
   }, [dispatch]);
 
   const columns = [
@@ -28,10 +28,12 @@ const StudentRequests: React.FC = () => {
     { header: "الطلب", accessor: "ReqID" },
   ];
 
-  const requestsWithIndex = requestes.map((req, idx) => ({
-    ...req,
-    rowNumber: idx + 1,
-  }));
+  // Ensure data is available before mapping
+  const requestsWithIndex =
+    requestes?.map((req, idx) => ({
+      ...req,
+      rowNumber: idx + 1,
+    })) || [];
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -41,30 +43,27 @@ const StudentRequests: React.FC = () => {
   );
   const totalPages = Math.ceil(requestsWithIndex.length / itemsPerPage);
 
-
   return (
     <div className="font-bold">
       <TitleSection
         title="قبـــول الطلبات"
-        className="mr-[400px] mb-4 text-[#1A3D61]"
+        className="md:mr-[400px] mb-4 text-[#1A3D61]"
       />
       {loading ? (
         <LoadingIcon />
-      ) : requestes.length === 0 ? (
+      ) : requestes?.length === 0 ? (
         <div dir="rtl" className="p-6 flex justify-center h-96 items-center">
           لا توجد طلبات متاحة حاليًا.
         </div>
       ) : (
-        <div dir="rtl" className="p-4 space-y-12">
-          <div dir="rtl" className="max-w-5xl mx-auto">
+        <div dir="rtl" className="md:p-4 space-y-12">
+          <div className="max-w-5xl mx-auto">
             <GeneralTable
               columns={columns}
               data={currentItems}
-              classNameTH={"p-2"}
+              classNameTH="p-2"
               renderCell={(row, column) => {
-                if (column === "rowNumber") {
-                  return row.rowNumber;
-                }
+                if (column === "rowNumber") return row.rowNumber;
                 if (column === "ReqID") {
                   return (
                     <Link href={`/students/requests/${row["ReqID"]}`}>

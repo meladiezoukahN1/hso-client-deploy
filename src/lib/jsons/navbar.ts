@@ -33,24 +33,24 @@ export const sidebarItems: SidebarItem[] = [
     icon: PiStudentLight,
     children: [
       {
-        name: "حجز غرفة لطالب",
-        href: "/students/bookroom",
+        name: "قبول الطلبات",
+        href: "/students/requests",
       },
       {
-        name: "طرد طالب",
+        name: "الغاء تسجيل طالب",
         href: "/students/expelstudent",
       },
       {
-        name: "عرض حالة الطالب",
-        href: "/students/studentsTable",
-      },
-      {
-        name: "تعديل غرفة الطالب",
+        name: "تعديل الغرفة",
         href: "/students/editroom",
       },
       {
-        name: "قبول الطلبات",
-        href: "/students/requests",
+        name: "عرض الطلبة",
+        href: "/students/studentsTable",
+      },
+      {
+        name: "حجز غرفة للطالب",
+        href: "/students/bookroom",
       },
     ],
   },
@@ -95,7 +95,7 @@ export const sidebarItems: SidebarItem[] = [
         href: "/management/CollegesClasses",
       },
       {
-        name: "ادارة الطلاب",
+        name: "ادارة السكان",
         href: "/management/StudentManagement",
       },
       {

@@ -23,6 +23,17 @@ export const typeOfReports: TypesOfReports[] = [
   },
 ];
 
+export const statuRooms = [
+  {
+    label: "غير ممتلئ",
+    value: "غير ممتلئ",
+  },
+  {
+    label: "ممتلئ",
+    value: "ممتلئ",
+  },
+];
+
 export const genderOptions = [
   { value: "ذكر", label: "ذكر" },
   { value: "أنثى", label: "أنثى" },

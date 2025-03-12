@@ -5,7 +5,7 @@ import CollegeStats from "./StudentsByCollege";
 import CardRecentActivities from "./card-recent-activities/Card-RecentActivities";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux-toolkit";
 import { getStatistics, lastActivities } from "@/lib/fetsures/home/action";
-import { Spinner } from "@nextui-org/react";
+import { LoadingIcon } from "../ui";
 
 export default function HomeUI() {
   const dispatch = useAppDispatch();
@@ -15,13 +15,8 @@ export default function HomeUI() {
     dispatch(lastActivities());
   }, [dispatch]);
 
-  if (isLoading) {
-    return (
-      <div className="w-full h-full flex justify-center items-center">
-        <Spinner size="md" />
-      </div>
-    );
-  }
+  if (isLoading) return <LoadingIcon />;
+
   if (error)
     return (
       <div className="flex justify-center w-full items-center">{error}</div>
@@ -29,7 +24,7 @@ export default function HomeUI() {
   return (
     <div className="p-1">
       <DashboardCards />
-      <div className="flex items-start">
+      <div className="flex flex-col md:flex-row items-start">
         <CollegeStats />
         <CardRecentActivities />
       </div>

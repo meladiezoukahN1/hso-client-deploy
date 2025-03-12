@@ -12,6 +12,7 @@ interface MultiSelectProps {
   onChange: (values: string[]) => void;
   placeholder?: string;
   label: string;
+  className?: string; // أضف هذا السطر
 }
 
 const MultiSelect: React.FC<MultiSelectProps> = ({
@@ -19,7 +20,8 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
   value,
   onChange,
   label,
-  placeholder = "Select options",
+  placeholder = "اختر المشرفين",
+  className = "", // أضف قيمة افتراضية
 }) => {
   const handleChange = (selectedOptions: MultiValue<Option>) => {
     const values = selectedOptions.map((option) => option.value);
@@ -31,21 +33,36 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
   );
 
   return (
-    <div className="flex items-center justify-end">
-      <label className="text-right w-40 text-lg font-bold ">{label}:</label>
+    <div
+      className={`flex items-center gap-4 justify-end w-[46.5%] ${className}`}
+    >
+      {" "}
+      {/* أضف className هنا */}
+      <label className="text-lg font-bold whitespace-nowrap">{label}:</label>
       <Select
         isMulti
         options={options || []}
         value={selectedValues || []}
         onChange={handleChange}
         placeholder={placeholder}
-        className="basic-multi-select ml-5"
+        className="basic-multi-select flex-1"
         classNamePrefix="select"
         styles={{
           control: (base) => ({
             ...base,
-            width: "320px",
             backgroundColor: "#fff8f1",
+            textAlign: "right",
+            direction: "rtl",
+          }),
+          menu: (base) => ({
+            ...base,
+            direction: "rtl",
+            textAlign: "right",
+          }),
+          multiValue: (base) => ({
+            ...base,
+            direction: "rtl",
+            flexDirection: "row-reverse",
           }),
         }}
       />

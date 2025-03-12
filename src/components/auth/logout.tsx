@@ -18,7 +18,7 @@ import { signOut } from "next-auth/react";
 const LogoutPage = ({ className }: { className?: string }) => {
   const handleSignOut = () => {
     signOut({
-      callbackUrl: "/", // Redirect to the homepage or a specific page after logout
+      callbackUrl: "/",
     });
   };
 
@@ -28,7 +28,7 @@ const LogoutPage = ({ className }: { className?: string }) => {
         <DialogTrigger asChild>
           <Link
             href="#"
-            className={`flex items-center gap-3 p-2  mx-4 rounded-lg transition duration-200 hover:text-primray-900 hover:bg-[#52462a] hover:text-white`}
+            className={`flex items-center gap-3 p-2  mx-4 rounded-lg transition duration-200 hover:text-primray-900 hover:bg-danger-500 hover:text-white`}
           >
             <FaSignOutAlt className="w-5 h-5" />
             <span>تسجيل خروج</span>
@@ -43,7 +43,7 @@ const LogoutPage = ({ className }: { className?: string }) => {
               تسجيل الخروج
             </DialogTitle>
           </DialogHeader>
-          <DialogDescription className="text-gray-700 text-center text-sm mt-2">
+          <DialogDescription className="text-danger-700 text-center text-sm mt-2">
             عند تسجيل الخروج، سيتم إنهاء جلستك وستحتاج إلى تسجيل الدخول مرة أخرى
             للعودة.
           </DialogDescription>

@@ -45,10 +45,10 @@ const CitiesReport = () => {
     : 0;
 
   return (
-    <div className="pt-8 px-24">
+    <div className="pt-8 md:px-24">
       <h1 className="text-3xl font-bold text-center">تقرير المدن</h1>
-      <div className="mt-8 flex gap-x-6 items-start">
-        <div className="grow">
+      <div className="mt-8 flex flex-wrap md:flex-nowrap gap-x-6 items-start">
+        <div className="grow mb-4">
           <div className="flex gap-x-6">
             <CityCard
               city={highestCity ? highestCity.city : ""}
@@ -71,7 +71,7 @@ const CitiesReport = () => {
             }
           />
         </div>
-        <div className="w-[400px]">
+        <div className="w-full md:w-[400px]">
           <CityListCard
             cities={
               cityReport?.data?.map((city) => ({

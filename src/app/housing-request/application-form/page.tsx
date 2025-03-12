@@ -105,7 +105,10 @@ const ApplicationForm = () => {
       } else {
         throw new Error(`فشل في إرسال الطلب. الحالة: ${response.status}`);
       }
-    } catch (error: any) {
+    } catch (
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      error: any
+    ) {
       const errorData = error?.response?.data?.errors;
       if (errorData) {
         const messages = Object.values(errorData).flat().join(" ");

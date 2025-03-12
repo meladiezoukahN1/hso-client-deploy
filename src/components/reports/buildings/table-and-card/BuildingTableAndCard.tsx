@@ -87,7 +87,10 @@ export default function BuildingTableAndCardPage({
           },
           index: number
         ) => (
-          <div key={index} className="flex items-start gap-x-8 mb-10">
+          <div
+            key={index}
+            className="flex flex-col md:flex-row items-start gap-x-8 mb-10"
+          >
             <BuildingTable
               buildingName={building.name_building}
               details={building.data_student}

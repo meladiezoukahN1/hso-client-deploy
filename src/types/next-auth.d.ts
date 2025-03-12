@@ -25,24 +25,48 @@ declare module "next-auth" {
     FullName: string;
   }
 
-  interface User extends BasicUser {
+  interface Session {
+    user: {
+      id: number;
+      name: string;
+      username: string;
+      FullName: string;
+      token: string;
+      type: string; // التأكد من وجود الخاصية role
+    };
+  }
+
+  interface User {
+    id: number;
     username: string;
-    FullName?: string;
-    // phone: string;
-    // IsAdmin: number;
-    // IsSuper: number;
-    // IsActive: number;
-    // email: string;
-    // email_verified_at: string;
-    // created_at: string;
-    // updated_at: string;
+    FullName: string;
     access?: string;
     refresh?: string;
-    error?: string;
     address?: string;
     type?: string;
     token?: string;
+    type?: string; // تضمين الخاصية role هنا أيضًا
   }
+
+  // interface User extends BasicUser {
+  //   username: string;
+  //   FullName?: string;
+  //   // phone: string;
+  //   // IsAdmin: number;
+  //   // IsSuper: number;
+  //   // IsActive: number;
+  //   // email: string;
+  //   // email_verified_at: string;
+  //   // created_at: string;
+  //   // updated_at: string;
+  //   access?: string;
+  //   refresh?: string;
+  //   error?: string;
+  //   address?: string;
+  //   type?: string;
+  //   token?: string;
+  //   role?: string;
+  // }
 
   interface AxiosOptionsProps {
     auth?: boolean;

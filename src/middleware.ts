@@ -8,6 +8,8 @@ export default async function middleware(req: NextRequestWithAuth) {
     return NextResponse.next();
   }
 
+  console.log(pathname)
+
   return withAuth(req, {
     pages: {
       signIn: "/auth/login",

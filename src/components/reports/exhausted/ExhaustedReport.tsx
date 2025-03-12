@@ -21,7 +21,7 @@ import PaginationComponent from "@/components/ui/paginationComponent";
 
 const ExhaustedReport = () => {
   const dispatch = useAppDispatch();
-  const { studyReportData, error, faculties } = useAppSelector(
+  const { studyReportData, error, faculties, status } = useAppSelector(
     (state: RootState) => state.reports
   );
 
@@ -85,25 +85,27 @@ const ExhaustedReport = () => {
       );
     });
     setFilteredData(filtered);
-    setCurrentPage(1); // Reset to first page when filters change
+    setCurrentPage(1);
   };
 
   if (error) return <div>{error}</div>;
-  if (!studyReportData || studyReportData.length === 0)
+  if (
+    (!studyReportData || studyReportData.length === 0) &&
+    status === "succeeded"
+  )
     return <div>No data available</div>;
 
-  // Pagination logic
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
   return (
-    <div className="pt-8 px-24">
-      <h1 className="text-3xl font-bold text-center">
+    <div className="pt-8 md:px-24">
+      <h1 className="md:text-3xl text-xl font-bold text-center">
         تقرير مستنفدي مدة الدراسة
       </h1>
-      <div className="mt-10 flex justify-between items-center">
+      <div className="mt-10 flex flex-col md:flex-row gap-1 justify-between items-center">
         <SelectValueComponents
           title="الكلية"
           data={faculties}
@@ -163,7 +165,7 @@ const ExhaustedReport = () => {
           }}
         />
       </div>
-      <div className="mt-4 flex justify-between items-center">
+      <div className="mt-4 flex flex-col md:flex-row justify-between items-center gap-2 md:gap-0">
         <PaginationComponent
           currentPage={currentPage}
           totalPages={totalPages}

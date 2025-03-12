@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux-toolkit";
 import {
-  editUser,
+  editSupervisor,
   getSupervisorsById,
   getUsers,
 } from "@/lib/fetsures/management/action";
@@ -14,20 +14,26 @@ import {
   EditSuperVisorType,
 } from "@/validation/managements/supervisor";
 
-import EditableField from "./EditableField";
+import EditField from "./EditField";
 import SupervisorSelector from "./SupervisorSelector";
 import BuildingSelector from "./BuildingSelector";
 import { Building, GetByIdSupervisorResponse } from "mangement";
 
-export default function EditUserTab() {
+export default function EditSupervisorTab() {
   const [isOpen, setIsOpen] = useState(false);
-  const [isOpenDisable, setIsOpenDisable] = useState(false);
   const [isUserSelected, setIsUserSelected] = useState(false);
   const dispatch = useAppDispatch();
-  const { status, error, buildings } = useAppSelector(
-    (state) => state.mangement
+  const { status, buildings } = useAppSelector((state) => state.mangement);
+  const { supervisorSelected } = useAppSelector(
+    (state) => state.mangement.supervisors
   );
-  const { userSelected } = useAppSelector((state) => state.mangement.user);
+
+  const [selectedBuildingId, setSelectedBuildingId] = useState<number | null>(
+    null
+  );
+  const [selectedSupervisorId, setSelectedSupervisorId] = useState<
+    number | null
+  >(null);
 
   const {
     register,
@@ -39,43 +45,30 @@ export default function EditUserTab() {
   } = useForm<EditSuperVisorType>({
     resolver: zodResolver(EditSuperVisorSchema),
   });
-
   useEffect(() => {
-    if (userSelected?.id) {
-      setValue("id", userSelected.id);
-      setValue("FullName", userSelected.FullName);
-      setValue("username", userSelected.username);
-      setValue("phone", userSelected.phone);
-      setValue("email", userSelected.email);
+    if (supervisorSelected?.supervisor.id) {
+      setValue("id", supervisorSelected.supervisor.id);
+      setValue("Fullname", supervisorSelected.supervisor.Fullname);
+      setValue("address", supervisorSelected.supervisor.address);
+      setValue("Phone", supervisorSelected.supervisor.Phone);
+      setValue("Email", supervisorSelected.supervisor.Email);
       setIsUserSelected(true);
     } else {
       setIsUserSelected(false);
     }
-  }, [userSelected, setValue]);
+  }, [supervisorSelected, setValue]);
 
   const handleConfirm = async (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
     try {
       const formData = getValues();
-      await dispatch(editUser(formData)).unwrap();
+      await dispatch(editSupervisor(formData)).unwrap();
       await dispatch(getUsers());
       reset();
+      setBuildingSelected(null);
+      setSelectedBuildingId(null);
+      setIsUserSelected(false);
     } catch {
-      toast.error(`${error}`);
-    } finally {
-      setIsOpen(false);
-    }
-  };
-
-  const handleDisable = async (e: React.MouseEvent<HTMLElement>) => {
-    e.preventDefault();
-    try {
-      const formData = getValues();
-      await dispatch(editUser(formData)).unwrap();
-      await dispatch(getUsers());
-      reset();
-    } catch {
-      toast.error(`${error}`);
     } finally {
       setIsOpen(false);
     }
@@ -89,22 +82,21 @@ export default function EditUserTab() {
 
   const onError = () => {
     const formData = getValues();
-    console.log(formData)
     if (!formData.id) {
       toast.error("قم باختيار مستخدم أولا");
       return;
     }
     setShowErrors(true);
   };
-
   const handleSelectSupervisor = (supervisorId: number) => {
     if (supervisorId) {
       dispatch(getSupervisorsById(supervisorId)).then((res) => {
         const { supervisor } = res.payload as GetByIdSupervisorResponse;
         setValue("id", supervisor.id);
-        setValue("FullName", supervisor.Fullname);
-        setValue("email", supervisor.Email);
-        setValue("phone", supervisor.Phone);
+        setValue("Fullname", supervisor.Fullname);
+        setValue("address", supervisor.address);
+        setValue("Email", supervisor.Email);
+        setValue("Phone", supervisor.Phone);
       });
     }
   };
@@ -118,23 +110,35 @@ export default function EditUserTab() {
     );
   };
   return (
-    <div className="p-2 mt-6 flex flex-col items-start mr-8">
-      <div className="md:flex gap-8">
+    <div className="p-2 mt-6 flex flex-col items-start">
+      <div className="md:flex gap-8 mb-[3%] ml-[7%]">
         <BuildingSelector
           buildings={buildings.buildingList}
-          onSelect={handleSelectBuilding}
+          onSelect={(id) => {
+            setSelectedBuildingId(id);
+            setSelectedSupervisorId(null);
+            handleSelectBuilding(id);
+          }}
+          value={selectedBuildingId ? String(selectedBuildingId) : "default"}
         />
+
         <SupervisorSelector
           supervisors={buildingSelected?.supervisor || []}
-          onSelect={handleSelectSupervisor}
-          disabled={buildingSelected === null}
+          onSelect={(id) => {
+            setSelectedSupervisorId(id);
+            handleSelectSupervisor(id);
+          }}
+          disabled={!selectedBuildingId}
+          value={
+            selectedSupervisorId ? String(selectedSupervisorId) : "default"
+          }
         />
       </div>
       <form
         onSubmit={handleSubmit(onSubmit, onError)}
         className="flex flex-col justify-center items-center"
       >
-        <EditableField
+        <EditField
           register={register}
           errors={showErrors ? errors : {}}
           disabled={!isUserSelected}
@@ -154,13 +158,6 @@ export default function EditUserTab() {
         onConfirm={handleConfirm}
         onOpenChange={setIsOpen}
         isOpen={isOpen}
-      />
-      <GeneralDailog
-        dialogTitle="هل أنت متأكد أنك تريد حذف هذا المستخدم؟"
-        description="قد لا تتمكن من التراجع بعد إتمامها"
-        onConfirm={handleDisable}
-        onOpenChange={setIsOpenDisable}
-        isOpen={isOpenDisable}
       />
       {status === "loading" && <DailogLoading />}
     </div>

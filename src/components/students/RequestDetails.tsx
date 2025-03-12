@@ -22,7 +22,7 @@ const RequestDetails = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isDialogOpenSecond, setIsDialogOpenSecond] = useState(false);
   const dispatch = useAppDispatch();
-  const { requesteDetails, loading, status } = useAppSelector(
+  const { requesteDetails, loading, status,  } = useAppSelector(
     (state) => state.student
   );
 
@@ -63,241 +63,130 @@ const RequestDetails = () => {
 
   if (!requesteDetails.length && !loading) {
     return (
-      <div className="min-h-screen w-full justify-center flex items-center">
+      <div className="min-h-screen w-full flex justify-center items-center text-center p-4">
         لا توجد بيانات للمستخدم حالياً، يرجى المحاولة لاحقاً
       </div>
     );
   }
 
   return (
-    <div>
+    <div className="p-4 max-w-6xl mx-auto">
       {status === "loading" && <LoadingIcon />}
       <BackButton />
+
       {requesteDetails?.length > 0 && requesteDetails[0]?.ReqID !== 0 && (
         <>
           <TitleSection
-            className="mt-9"
-            title={`${requesteDetails[0].full_name}`}
+            className="mt-4 md:mt-6 text-center"
+            title={requesteDetails[0].full_name}
           />
+
           {requesteDetails.map((request, index) => (
-            <div dir="rtl" className="md:p-6 p-2 space-y-12" key={index}>
-              <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                {/* العمود الأول */}
-                <div className="space-y-4">
-                  <div className="flex flex-row-reverse items-center gap-2">
-                    <input
-                      readOnly
-                      value={request.studentID}
-                      className="w-full p-2 bg-gray-200 focus:outline-0 focus:border-0 focus:ring-0  rounded-md"
-                      disabled
-                    />
-                    <label className="block text-sm font-medium text-gray-700 mb-2 w-32">
-                      الرقم الوطني :
-                    </label>
-                  </div>
-
-                  <div className="flex flex-row-reverse items-center gap-2">
-                    <input
-                      readOnly
-                      value={request.studentID}
-                      className="w-full p-2 bg-gray-200 focus:outline-0 focus:border-0 focus:ring-0  rounded-md"
-                      disabled
-                    />
-                    <label className="block text-sm font-medium text-gray-700 mb-2 w-32">
-                      رقم القيد :
-                    </label>
-                  </div>
-                  <div className="flex flex-row-reverse items-center gap-2">
-                    <input
-                      readOnly
-                      value={request.Phone}
-                      className="w-full p-2 bg-gray-200 focus:outline-0 focus:border-0 focus:ring-0  rounded-md"
-                      disabled
-                    />
-                    <label className="block text-sm font-medium text-gray-700 mb-2 w-32">
-                      رقم الهاتف :
-                    </label>
-                  </div>
-                  <div className="flex flex-row-reverse items-center gap-2">
-                    <input
-                      readOnly
-                      value={new Date(request.DOB).toLocaleDateString("ar-EG")}
-                      className="w-full p-2 bg-gray-200 focus:outline-0 focus:border-0 focus:ring-0  rounded-md"
-                      disabled
-                    />
-                    <label className="block text-sm font-medium text-gray-700 mb-2 w-32">
-                      تاريخ الميلاد :
-                    </label>
-                  </div>
-                </div>
-
-                {/* العمود الثاني */}
-                <div className="space-y-4">
-                  <div className="flex flex-row-reverse items-center gap-2">
-                    <input
-                      readOnly
-                      value={request.Phone}
-                      className="w-full p-2 bg-gray-200 focus:outline-0 focus:border-0 focus:ring-0  rounded-md"
-                      disabled
-                    />
-                    <label className="block text-sm font-medium text-gray-700 mb-2 w-32">
-                      رقم الهاتف :
-                    </label>
-                  </div>
-                  <div className="flex flex-row-reverse items-center gap-2">
-                    <input
-                      readOnly
-                      value={request.nationality}
-                      className="w-full p-2 bg-gray-200 focus:outline-0 focus:border-0 focus:ring-0  rounded-md"
-                      disabled
-                    />
-                    <label className="block text-sm font-medium text-gray-700 mb-2 w-32">
-                      الجنسية :
-                    </label>
-                  </div>
-                  <div className="flex flex-row-reverse items-center gap-2">
-                    <input
-                      readOnly
-                      value={request.faculty}
-                      className="w-full p-2 bg-gray-200 focus:outline-0 focus:border-0 focus:ring-0  rounded-md"
-                      disabled
-                    />
-                    <label className="block text-sm font-medium text-gray-700 mb-2 w-32">
-                      الكلية :
-                    </label>
-                  </div>
-                  <div className="flex flex-row-reverse items-center gap-2">
-                    <input
-                      readOnly
-                      value={request.Email}
-                      className="w-full p-2 bg-gray-200 focus:outline-0 focus:border-0 focus:ring-0  rounded-md"
-                      disabled
-                    />
-                    <label className="block text-sm font-medium text-gray-700 mb-2 w-32">
-                      البريد الإلكتروني :
-                    </label>
-                  </div>
-                </div>
-
-                {requesteDetails.map((request, index) => (
-                  <div dir="rtl" className="md:p-4 p-2 space-y-12" key={index}>
-                    {/* قسم المستندات */}
-                    <div>
-                      <h1 className="text-gray-700 mb-4 font-bold text-lg">
-                        المستندات الرسمية المحملة:
-                      </h1>
-
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 ">
-                        {/* شهادة الميلاد */}
-                        {request.documents.map((doc) =>
-                          doc.FileName.includes("birthCertificate") ? (
-                            <div
-                              key={doc.DocId}
-                              className="flex items-center justify-between"
-                            >
-                              <span className="text-lg text-gray-700 ">
-                                شهادة الميلاد:
-                              </span>
-                              <Link
-                                href={`${process.env.NEXT_PUBLIC_API_URL}/${doc.path}`}
-                                target="_blank"
-                              >
-                                <button className="bg-blue-600 text-white px-4 py-2 rounded-md text-sm">
-                                  عرض الملف
-                                </button>
-                              </Link>
-                            </div>
-                          ) : null
-                        )}
-
-                        {/* شهادة الإقامة */}
-                        {request.documents.map((doc) =>
-                          doc.FileName.includes("secondaryCertificate") ? (
-                            <div
-                              key={doc.DocId}
-                              className="flex items-center justify-between"
-                            >
-                              <span className="text-lg text-gray-700">
-                                شهادة الإقامة:
-                              </span>
-                              <Link
-                                href={`${process.env.NEXT_PUBLIC_API_URL}/${doc.path}`}
-                                target="_blank"
-                              >
-                                <button className="bg-blue-600 text-white px-4 py-2 rounded-md text-sm">
-                                  عرض الملف
-                                </button>
-                              </Link>
-                            </div>
-                          ) : null
-                        )}
-
-                        {/* الشهادة الثانوية */}
-                        {request.documents.map((doc) =>
-                          doc.FileName.includes("secondaryCertificate") ? (
-                            <div
-                              key={doc.DocId}
-                              className="flex items-center justify-between"
-                            >
-                              <span className="text-lg text-gray-700">
-                                الشهادة الثانوية:
-                              </span>
-                              <Link
-                                href={`${process.env.NEXT_PUBLIC_API_URL}/${doc.path}`}
-                                target="_blank"
-                              >
-                                <button className="bg-blue-600 text-white px-4 py-2 rounded-md text-sm">
-                                  عرض الملف
-                                </button>
-                              </Link>
-                            </div>
-                          ) : null
-                        )}
-
-                        {/* صورة شخصية */}
-                        {request.documents.map((doc) =>
-                          doc.FileName.includes("personalPhoto") ? (
-                            <div
-                              key={doc.DocId}
-                              className="flex items-center justify-between"
-                            >
-                              <span className="text-lg text-gray-700">
-                                صورة شخصية:
-                              </span>
-                              <Link
-                                href={`${process.env.NEXT_PUBLIC_API_URL}/${doc.path}`}
-                                target="_blank"
-                              >
-                                <button className="bg-blue-600 text-white px-4 py-2 rounded-md text-sm">
-                                  عرض الملف
-                                </button>
-                              </Link>
-                            </div>
-                          ) : null
-                        )}
-                      </div>
+            <div
+              dir="rtl"
+              className="p-2 md:p-6 space-y-4 md:space-y-6"
+              key={index}
+            >
+              {/* Grid Container */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+                {/* Column 1 */}
+                <div className="space-y-3 md:space-y-4">
+                  {[
+                    { label: "الرقم الوطني", value: request.studentID },
+                    { label: "رقم القيد", value: request.studentID },
+                    { label: "رقم الهاتف", value: request.Phone },
+                    {
+                      label: "تاريخ الميلاد",
+                      value: new Date(request.DOB).toLocaleDateString("ar-EG"),
+                    },
+                  ].map(({ label, value }, i) => (
+                    <div
+                      key={i}
+                      className="flex flex-col-reverse gap-1 md:gap-2"
+                    >
+                      <input
+                        readOnly
+                        value={value}
+                        className="w-full p-2 text-sm md:text-base bg-gray-100 rounded-md border border-gray-300"
+                        disabled
+                      />
+                      <label className="text-xs md:text-sm font-medium text-gray-600">
+                        {label}
+                      </label>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
+
+                {/* Column 2 */}
+                <div className="space-y-3 md:space-y-4">
+                  {[
+                    { label: "الجنسية", value: request.nationality },
+                    { label: "الكلية", value: request.faculty },
+                    { label: "البريد الإلكتروني", value: request.Email },
+                  ].map(({ label, value }, i) => (
+                    <div
+                      key={i}
+                      className="flex flex-col-reverse gap-1 md:gap-2"
+                    >
+                      <input
+                        readOnly
+                        value={value}
+                        className="w-full p-2 text-sm md:text-base bg-gray-100 rounded-md border border-gray-300"
+                        disabled
+                      />
+                      <label className="text-xs md:text-sm font-medium text-gray-600">
+                        {label}
+                      </label>
+                    </div>
+                  ))}
+                </div>
               </div>
 
-              {/* أزرار القبول والرفض */}
-              <div className="flex justify-center gap-4">
+              {/* Documents Section */}
+              <div className="mt-4 md:mt-6">
+                <h2 className="text-base md:text-lg font-semibold text-gray-800 mb-3 md:mb-4">
+                  المستندات الرسمية المحملة:
+                </h2>
+                <div className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-3">
+                  {request.documents.map((doc) => (
+                    <div
+                      key={doc.DocId}
+                      className="flex flex-col md:flex-row items-center justify-between bg-gray-50 p-2 md:p-3 rounded-md border border-gray-200"
+                    >
+                      <span className="text-sm md:text-base text-gray-700 mb-2 md:mb-0 md:mr-3 text-center md:text-right">
+                        {doc.FileName.replace(/([A-Z])/g, " $1")}
+                      </span>
+                      <Link
+                        href={`${process.env.NEXT_PUBLIC_API_URL}/${doc.path}`}
+                        target="_blank"
+                        className="w-full md:w-auto"
+                      >
+                        <button className="w-full md:w-32 bg-blue-600 hover:bg-blue-700 text-white text-sm md:text-base px-3 py-2 md:py-2 rounded-md transition-colors">
+                          عرض الملف
+                        </button>
+                      </Link>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex flex-col md:flex-row justify-center gap-3 md:gap-4 mt-6">
                 <button
                   onClick={() => setIsDialogOpen(true)}
-                  className="bg-green-600 text-white px-8 py-2 rounded-md hover:bg-green-700 transition-colors"
+                  className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 md:px-6 md:py-3 rounded-md text-sm md:text-base transition-colors w-full md:w-48"
                 >
                   قبول الطلب
                 </button>
                 <button
                   onClick={() => setIsDialogOpenSecond(true)}
-                  className="bg-red-600 text-white px-8 py-2 rounded-md hover:bg-red-700 transition-colors"
+                  className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 md:px-6 md:py-3 rounded-md text-sm md:text-base transition-colors w-full md:w-48"
                 >
                   رفض الطلب
                 </button>
               </div>
 
-              {/* ديالوجات التأكيد */}
+              {/* Dialogs */}
               <GeneralDialog
                 dialogTitle="تأكيد القبول"
                 description="هل أنت متأكد من قبول هذا الطلب؟"
@@ -307,22 +196,22 @@ const RequestDetails = () => {
               />
 
               <GeneralDialog
-                dialogTitle="تأكيد الرفض"
-                description="هل أنت متأكد من رفض هذا الطلب؟"
+                dialogTitle={`هل أنت متأكد أنك تريد رفض الطالب ${requesteDetails[0].full_name}؟`}
+                description="قد لا تتمكن من التراجع بعد إتمامها"
                 isOpen={isDialogOpenSecond}
                 onConfirm={handleCancel}
                 onOpenChange={setIsDialogOpenSecond}
               >
-                <label className="space-y-4 mt-4">
-                  <label className="block text-sm font-medium text-gray-700">
+                <span className="space-y-3 mt-3">
+                  <label className="block text-sm md:text-base font-medium text-gray-700">
                     سبب الرفض:
                   </label>
                   <textarea
-                    className="w-full p-2 border border-gray-300 rounded-md h-24 resize-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full p-2 text-sm md:text-base border border-gray-300 rounded-md h-24 resize-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     placeholder="أدخل سبب الرفض..."
                     onChange={(e) => setReason(e.target.value)}
                   />
-                </label>
+                </span>
               </GeneralDialog>
             </div>
           ))}

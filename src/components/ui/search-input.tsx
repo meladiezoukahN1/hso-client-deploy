@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux-toolkit";
 import { getStudent } from "@/lib/fetsures/students/action";
 import { Students } from "student";
+import Link from "next/link";
 
 export default function SearchInput() {
   const dispath = useAppDispatch();
@@ -27,13 +28,10 @@ export default function SearchInput() {
     }
     const filtered = student.filter(
       (item: Students) =>
-        (item.full_name.toLowerCase().includes(trimmed.toLowerCase()) ||
-          item.faculty_name.toLowerCase().includes(trimmed.toLowerCase()) ||
-          item.fileNo
-            .toString()
-            .toLowerCase()
-            .includes(trimmed.toLowerCase())) &&
-        item.status === "Active"
+        item.full_name.toLowerCase().includes(trimmed.toLowerCase()) ||
+        item.faculty_name.toLowerCase().includes(trimmed.toLowerCase()) ||
+        item.fileNo.toString().toLowerCase().includes(trimmed.toLowerCase())
+      // && item.status === "Active"
     );
     setResults(filtered);
   };
@@ -55,7 +53,7 @@ export default function SearchInput() {
   }, []);
 
   return (
-    <div ref={containerRef} className="w-96 mx-auto relative">
+    <div ref={containerRef} className="w-[75%] mr-8 md:mx-auto relative">
       <form onSubmit={(e) => e.preventDefault()} className="relative">
         <span className="absolute inset-y-0 left-2 flex items-center pointer-events-none text-gray-500">
           <Search className="h-4 w-4" />
@@ -75,19 +73,22 @@ export default function SearchInput() {
       {results.length > 0 && (
         <ul className="absolute w-full overflow-scroll max-h-52 left-0 mt-1 py-1 bg-white border border-muted rounded-md shadow z-10">
           {results.map((item, idx) => (
-            <li
-              key={idx}
-              onClick={() => {
-                setResults([]);
-              }}
-              className="px-1 py-1 text-xs hover:bg-gray-100"
-            >
-              <div className="flex flex-wrap justify-between text-right pr-2">
-                <span className="font-semibold w-1/6">{item.fileNo}</span>
-                <span className="font-semibold w-3/6">{item.full_name}</span>
-                <span className="font-semibold w-2/6">{item.faculty_name}</span>
-              </div>
-            </li>
+            <Link key={idx} href={`/students/studentsTable/${item.fileNo}`}>
+              <li
+                onClick={() => {
+                  setResults([]);
+                }}
+                className="px-1 py-1 text-xs hover:bg-gray-100"
+              >
+                <div className="flex flex-wrap justify-between text-right pr-2">
+                  <span className="font-semibold w-1/6">{item.fileNo}</span>
+                  <span className="font-semibold w-3/6">{item.full_name}</span>
+                  <span className="font-semibold w-2/6">
+                    {item.faculty_name}
+                  </span>
+                </div>
+              </li>
+            </Link>
           ))}
         </ul>
       )}

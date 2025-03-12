@@ -10,39 +10,50 @@ export interface ErrorResponse {
   };
 }
 
-// Type guard to check if the error has a message string
-function isErrorWithMessage(error: unknown): error is { message: string } {
-  return (
-    typeof error === "object" &&
-    error !== null &&
-    "message" in error &&
-    typeof (error as { message: unknown }).message === "string"
-  );
-}
-
 function handleError(error: unknown): string {
   let errorMessage = "An unknown error occurred.";
+
+  //
+  function extractMessages(errorObject: unknown): string[] {
+    if (typeof errorObject === "string") {
+      return [errorObject];
+    } else if (Array.isArray(errorObject)) {
+      return errorObject.flatMap(extractMessages);
+    } else if (errorObject && typeof errorObject === "object") {
+      return Object.values(errorObject).flatMap(extractMessages);
+    } else {
+      return [String(errorObject)];
+    }
+  }
 
   if (typeof error === "object" && error !== null) {
     const errResponse = (error as ErrorResponse).response;
 
-    if (errResponse?.status) {
-      if (errResponse.status === 422 && errResponse.data?.errors) {
-        const errorsObject = errResponse.data.errors;
-        const allMessages = Object.values(errorsObject).flatMap(
-          (messages) => messages
-        );
-        errorMessage = allMessages.join(" ").replace(/\./g, ",");
-      } else if (errResponse.data?.message) {
-        errorMessage =
-          typeof errResponse.data.message === "string"
-            ? errResponse.data.message
-            : JSON.stringify(errResponse.data.message);
+    if (errResponse && errResponse.status) {
+
+      // حالة الخطأ 422 (Validation Error)
+      if (errResponse.status === 422) {
+        const errorData = errResponse.data?.errors || errResponse.data?.message;
+        if (errorData) {
+          const allMessages = extractMessages(errorData);
+          errorMessage = allMessages.join(" ");
+        }
+      }
+      // حالة الخطأ 400 (Bad Request)
+      else if (errResponse.status === 400) {
+        if (errResponse.data) {
+          const allMessages = extractMessages(errResponse.data);
+          errorMessage = allMessages.join(" ");
+        }
+      }
+      // حالات أخرى تحتوي على data.message
+      else if (errResponse.data?.message) {
+        const allMessages = extractMessages(errResponse.data.message);
+        errorMessage = allMessages.join(" ");
       } else {
         errorMessage = `Error ${errResponse.status}: Unexpected error`;
       }
-    } else if (isErrorWithMessage(error)) {
-      // Use type guard for type-safe access
+    } else if ("message" in error && typeof error.message === "string") {
       errorMessage = error.message;
     }
   }

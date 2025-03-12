@@ -1,221 +1,231 @@
+import { useForm, Controller } from "react-hook-form";
 import { useState } from "react";
-import ValidateInput from "./ui/validate-input";
 import GeneralDailog from "@/components/ui/GeneralDailog";
 import MultiSelect from "@/components/ui/multi-select";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux-toolkit";
 import { addBuilding } from "@/lib/fetsures/management/action";
-import Loading from "@/app/home/loading";
 import ErrorMSG from "@/components/ui/error-msg";
 import { toast } from "sonner";
 import { AddBuilding } from "mangement";
+import ValidateFormField from "./ui/validate-input";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import { DailogLoading } from "@/components/ui";
 
-interface FormField {
-  value: string;
-  isVaild: boolean;
-}
-
-interface FormData {
-  Buildingname: FormField;
-  Numberrooms: FormField;
-  Numberfloors: FormField;
-  url: FormField;
-}
+const schema = yup.object().shape({
+  Buildingname: yup.string().required("يجب إدخال اسم المبنى"),
+  Numberrooms: yup
+    .number()
+    .typeError("يجب أن يكون رقمًا")
+    .positive("يجب أن يكون رقمًا موجبًا")
+    .required("يجب إدخال عدد الغرف"),
+  Numberfloors: yup
+    .number()
+    .typeError("يجب أن يكون رقمًا")
+    .positive("يجب أن يكون رقمًا موجبًا")
+    .required("يجب إدخال عدد الأدوار"),
+  url: yup.string().url("رابط غير صحيح").required("يجب إدخال الموقع"),
+  supervisors: yup
+    .array()
+    .of(yup.string().required())
+    .min(1, "يجب اختيار مشرف واحد على الأقل")
+    .max(3, "يمكن اختيار 3 مشرفين فقط")
+    .required("يجب اختيار مشرف واحد على الأقل"),
+});
 
 const AddBuildingTab = () => {
-  const [formData, setFormData] = useState<FormData>({
-    Buildingname: { value: "", isVaild: false },
-    Numberrooms: { value: "", isVaild: false },
-    Numberfloors: { value: "", isVaild: false },
-    url: { value: "", isVaild: false },
+  const {
+    control,
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<{
+    Buildingname: string;
+    Numberrooms: number;
+    Numberfloors: number;
+    url: string;
+    supervisors: string[];
+  }>({
+    resolver: yupResolver(schema),
+    defaultValues: {
+      Buildingname: "",
+      Numberrooms: 0,
+      Numberfloors: 0,
+      url: "",
+      supervisors: [],
+    },
   });
 
+  // state لإظهار الديالوج وتخزين البيانات المُحققة
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedSupervisors, setSelectedSupervisors] = useState<
-    {
-      id: number;
-      FullName: string;
-    }[]
-  >([]);
-  const dispatch = useAppDispatch();
+  const [validatedData, setValidatedData] = useState<{
+    Buildingname: string;
+    Numberrooms: number;
+    Numberfloors: number;
+    url: string;
+    supervisors: string[];
+  } | null>(null);
 
+  const dispatch = useAppDispatch();
   const { isLoading, error, supervisors } = useAppSelector(
     (state) => state.mangement
   );
 
   const handleSupervisorChange = (values: string[]) => {
-    if (values.length <= 3) {
-      const list = supervisors.supervisorList
-        .filter((s) => values.includes(s.id.toString()))
-        .map((v) => ({ id: Number(v.id), FullName: v.FullName }));
-      setSelectedSupervisors(list);
-    } else {
+    if (values.length > 3) {
       toast.error("يمكن اختيار 3 مشرفين فقط");
+      return values.slice(0, 3);
+    }
+    return values;
+  };
+
+  // عند التحقق من صحة الحقول يتم تخزين البيانات وإظهار الديالوج
+  const handleValidForm = (data: {
+    Buildingname: string;
+    Numberrooms: number;
+    Numberfloors: number;
+    url: string;
+    supervisors: string[];
+  }) => {
+    setValidatedData(data);
+    setIsOpen(true);
+  };
+
+  // عند الضغط على زر التأكيد في الديالوج يتم تنفيذ عملية الإضافة
+  const handleConfirm = async (e: React.MouseEvent<HTMLElement>) => {
+    e.preventDefault();
+    if (!validatedData) return;
+    try {
+      const selectedSupervisors = supervisors.supervisorList
+        .filter((s) => validatedData.supervisors.includes(s.id.toString()))
+        .map((s) => ({
+          id: Number(s.id),
+          FullName: s.FullName,
+        }));
+
+      const buildingData: AddBuilding = {
+        Name: validatedData.Buildingname,
+        NumOfRooms: Number(validatedData.Numberrooms),
+        Floors: Number(validatedData.Numberfloors),
+        url: validatedData.url,
+        supervisors: selectedSupervisors,
+      };
+
+      await dispatch(addBuilding(buildingData));
+      reset();
+    } catch (e) {
+      console.error("Error adding building:", e);
+      toast.error("حدث خطأ أثناء إضافة المبنى");
+    } finally {
+      setIsOpen(false);
+      setValidatedData(null);
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: {
-        ...prev[name as keyof FormData],
-        value,
-      },
-    }));
+  const onError = () => {
   };
 
-  const handleSubmit = async () => {
-    const isFormVaild =
-      formData.Buildingname.isVaild &&
-      formData.Numberfloors.isVaild &&
-      formData.Numberrooms.isVaild &&
-      formData.url.isVaild &&
-      selectedSupervisors.length > 0;
-
-    if (isFormVaild) {
-      try {
-        const buildingData: AddBuilding = {
-          Name: formData.Buildingname.value,
-          NumOfRooms: Number(formData.Numberrooms.value),
-          Floors: Number(formData.Numberfloors.value),
-          url: formData.url.value,
-          supervisors: selectedSupervisors,
-        };
-
-        await dispatch(addBuilding(buildingData));
-        toast.success("تمت إضافة المبنى بنجاح!");
-
-        setFormData({
-          Buildingname: { value: "", isVaild: false },
-          Numberrooms: { value: "", isVaild: false },
-          Numberfloors: { value: "", isVaild: false },
-          url: { value: "", isVaild: false },
-        });
-        setSelectedSupervisors([]);
-      } catch (e) {
-        console.error("Error adding building:", e);
-        toast.error("حدث خطأ أثناء إضافة المبنى.");
-      }
-    } else {
-      toast.error("يجب تعبئة جميع الحقول واختيار مشرفين");
-    }
-  };
-
-  if (isLoading) return <Loading />;
   if (error) return <ErrorMSG error={error} />;
 
   return (
     <div>
-      <form className="grid grid-cols-2 px-16 py-10 ">
-        <ValidateInput
-          inputName="Buildingname"
-          labelName="اسم المبنى:"
-          onChange={handleChange}
-          value={formData.Buildingname.value}
+      <form
+        onSubmit={handleSubmit(handleValidForm, onError)}
+        className="grid grid-cols-2 py-[3%] gap-[10%]"
+      >
+        <ValidateFormField
+          label="اسم المبنى"
+          name="Buildingname"
           type="text"
-          isValaid={(e) => {
-            setFormData((prev) => ({
-              ...prev,
-              Buildingname: {
-                value: prev.Buildingname.value,
-                isVaild: e,
-              },
-            }));
-          }}
+          register={register}
+          error={errors.Buildingname}
+          placeholder="أدخل اسم المبنى"
         />
-        <ValidateInput
-          inputName="Numberrooms"
-          labelName="عدد الغرف:"
-          onChange={handleChange}
-          value={formData.Numberrooms.value}
-          type="text"
-          isValaid={(e) => {
-            setFormData((prev) => ({
-              ...prev,
-              Numberrooms: {
-                value: prev.Numberrooms.value,
-                isVaild: e,
-              },
-            }));
-          }}
+
+        <ValidateFormField
+          label="عدد الغرف"
+          name="Numberrooms"
+          type="number"
+          register={register}
+          error={errors.Numberrooms}
+          placeholder="أدخل عدد الغرف"
         />
-        <ValidateInput
-          inputName="Numberfloors"
-          labelName="عدد الأدوار:"
-          onChange={handleChange}
-          value={formData.Numberfloors.value}
-          type="text"
-          isValaid={(e) => {
-            setFormData((prev) => ({
-              ...prev,
-              Numberfloors: {
-                value: prev.Numberfloors.value,
-                isVaild: e,
-              },
-            }));
-          }}
+
+        <ValidateFormField
+          label="عدد الأدوار"
+          name="Numberfloors"
+          type="number"
+          register={register}
+          error={errors.Numberfloors}
+          placeholder="أدخل عدد الأدوار"
         />
-        <ValidateInput
-          inputName="url"
-          labelName="الموقع:"
-          onChange={handleChange}
-          value={formData.url.value}
-          type="text"
-          isValaid={(e) => {
-            setFormData((prev) => ({
-              ...prev,
-              url: {
-                value: prev.url.value,
-                isVaild: e,
-              },
-            }));
-          }}
-        />
-        <div className="flex items-center mt-4">
-          <MultiSelect
-            label="المشرفين"
-            options={
-              supervisors.supervisorList.map((s) => ({
-                value: s.id.toString(),
-                label: s.FullName,
-              })) || []
-            }
-            value={selectedSupervisors.map((s) => s.id.toString())}
-            onChange={handleSupervisorChange}
-            placeholder="اختر المشرفين"
+
+        <div className="flex flex-col gap-2">
+          <Controller
+            name="supervisors"
+            control={control}
+            render={({ field }) => (
+              <div className="flex mr-[6%]">
+                <MultiSelect
+                  label="المشرفين"
+                  options={
+                    supervisors.supervisorList.map((s) => ({
+                      value: s.id.toString(),
+                      label: s.FullName,
+                    })) || []
+                  }
+                  value={field.value}
+                  onChange={(values) => {
+                    const filteredValues = handleSupervisorChange(values);
+                    field.onChange(filteredValues);
+                  }}
+                  placeholder="اختر المشرفين"
+                  className="flex-1"
+                />
+                {errors.supervisors && (
+                  <span className="text-danger text-xs mt-[10%]">
+                    {errors.supervisors.message}
+                  </span>
+                )}
+              </div>
+            )}
           />
         </div>
+        <div className="col-span-2 flex flex-col gap-2 mr-[3%]">
+          <label htmlFor="url" className="text-sm font-bold text-gray">
+            موقع المبنى:
+          </label>
+          <textarea
+            id="url"
+            {...register("url")}
+            className="border border-gray-300 rounded-md p-3 w-full h-24 resize-none focus:outline-none focus:ring-2 focus:ring-primary-600 bg-orange-50"
+            placeholder="من فضلك قم بإدخال رابط موقع المبنى"
+          ></textarea>
+          {errors.url && (
+            <span className="text-danger text-xs">{errors.url.message}</span>
+          )}
+        </div>
+
+        <div className="col-span-2 text-center">
+          <button
+            type="submit"
+            className="bg-primary-700 text-white px-6 py-2 rounded-md hover:bg-primary-600 w-80"
+          >
+            إضافة مبنى
+          </button>
+        </div>
       </form>
-      <div
-        className={`bg-primary-700 text-white px-6 py-2 text-center rounded-md hover:bg-primary-600 w-80 cursor-pointer mx-auto `}
-        onClick={() => {
-          const isFormVaild =
-            formData.Buildingname.isVaild &&
-            formData.Numberfloors.isVaild &&
-            formData.Numberrooms.isVaild &&
-            formData.url.isVaild &&
-            selectedSupervisors.length > 0 &&
-            Number(formData.Numberfloors.value) &&
-            Number(formData.Numberrooms.value);
-          if (isFormVaild) {
-            setIsOpen(true);
-          } else {
-            toast.error("يجب تعبئة جميع الحقول واختيار مشرفين");
-          }
-        }}
-      >
-        <span>{"إضافة مبنى"}</span>
-      </div>
-      <div className="text-center w-full">
-        <GeneralDailog
-          clasName="mt-4"
-          dialogTitle="هل أنت متأكد أنك تريد إضافة هذا المبنى؟"
-          description={`قد لا تتمكن من التراجع بعد إتمامها`}
-          onConfirm={handleSubmit}
-          onOpenChange={(e) => setIsOpen(e)}
-          isOpen={isOpen}
-        />
-      </div>
+
+      <GeneralDailog
+        clasName="mt-4"
+        dialogTitle="هل أنت متأكد أنك تريد إضافة هذا المبنى؟"
+        description="قد لا تتمكن من التراجع بعد إتمامها"
+        onConfirm={handleConfirm}
+        onOpenChange={setIsOpen}
+        isOpen={isOpen}
+      />
+      {isLoading && <DailogLoading />}
     </div>
   );
 };

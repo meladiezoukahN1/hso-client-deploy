@@ -16,8 +16,8 @@ export default function InfoDetailsCard({
 }) {
   return (
     <div>
-      <CardContainer className="bg-[#EFEFEF] w-[423px]  border-none rounded-3xl">
-        <CardTitle className="text-base font-bold mr-4">{title}:</CardTitle>
+      <CardContainer className="bg-[#F5E8C7] border-none rounded-3xl p-4">
+        <CardTitle className="text-base font-bold mr-4 text-[#1A3D61]">{title}:</CardTitle>
         <CardContent>
           <h1 className="text-xl font-bold mr-4"></h1>
           <ul className="text-base mt-3">

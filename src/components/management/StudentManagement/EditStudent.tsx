@@ -63,13 +63,15 @@ function EditStudent() {
   });
 
   useEffect(() => {
-    if (id) {
-      if (typeof id === "string") {
-        dispatch(getStudentId(parseInt(id)));
-        dispatch(getFaculties());
+    const fetchData = async () => {
+      await dispatch(getCities());
+      await dispatch(getFaculties());
+      if (id && typeof id === "string") {
+        await dispatch(getStudentId(parseInt(id)));
       }
-    }
-    dispatch(getCities());
+    };
+
+    fetchData();
   }, [dispatch, id]);
 
   useEffect(() => {
@@ -168,13 +170,13 @@ function EditStudent() {
   if (isLoading) return <LoadingIcon />;
   if (error) return <div>لا توجد بيانات لعرضها</div>;
   return (
-    <div className="pt-8 px-12">
+    <div className="pt-8 md:px-12">
       {status === "loading" && <DailogLoading />}
       <h1 className="text-3xl font-bold">بيانات الطالب:</h1>
-      <form className="flex justify-between mt-8">
+      <form className="flex justify-between mt-8 flex-wrap md:flex-nowrap">
         <div>
           <div className="flex items-center mt-7">
-            <label className="w-64 text-lg font-bold">الاسم الاول:</label>
+            <label className="w-64 text- md:text-lg font-bold">الاسم الاول:</label>
             <Input
               name="firstname"
               value={formData.firstname}
@@ -193,7 +195,7 @@ function EditStudent() {
             </Button>
           </div>
           <div className="flex items-center mt-7">
-            <label className="w-64 text-lg font-bold">الاسم الثاني:</label>
+            <label className="w-64 text- md:text-lg font-bold">الاسم الثاني:</label>
             <Input
               name="midname"
               value={formData.midname}
@@ -212,7 +214,7 @@ function EditStudent() {
             </Button>
           </div>
           <div className="flex items-center mt-7">
-            <label className="w-64 text-lg font-bold">اللقب:</label>
+            <label className="w-64 text- md:text-lg font-bold">اللقب:</label>
             <Input
               name="lastname"
               value={formData.lastname}
@@ -230,8 +232,8 @@ function EditStudent() {
               {editStates.lastname ? <FaSave /> : <FaEdit />}
             </Button>
           </div>
-          <div className="flex items-center mt-7">
-            <label className="w-64 text-lg font-bold">رقم الملف:</label>
+          {/* <div className="flex items-center mt-7">
+            <label className="w-64 text- md:text-lg font-bold">رقم الملف:</label>
             <Input
               name="fileNo"
               value={formData.fileNo}
@@ -248,9 +250,9 @@ function EditStudent() {
             >
               {editStates.fileNo ? <FaSave /> : <FaEdit />}
             </Button>
-          </div>
+          </div> */}
           <div className="flex items-center mt-7">
-            <label className="w-64 text-lg font-bold">الرقم الوطني:</label>
+            <label className="w-64 text- md:text-lg font-bold">الرقم الوطني:</label>
             <Input
               name="national_number"
               value={formData.national_number}
@@ -271,7 +273,7 @@ function EditStudent() {
             </Button>
           </div>
           <div className="flex items-center mt-7">
-            <label className="w-64 text-lg font-bold">رقم الهاتف:</label>
+            <label className="w-64 text- md:text-lg font-bold">رقم الهاتف:</label>
             <Input
               name="phone"
               value={formData.phone}
@@ -294,7 +296,7 @@ function EditStudent() {
         </div>
         <div>
           <div className="flex items-center mt-7">
-            <label className="w-64 text-lg font-bold">رقم القيد :</label>
+            <label className="w-64 text- md:text-lg font-bold">رقم القيد :</label>
             <Input
               name="studentID"
               value={formData.studentID}
@@ -313,7 +315,7 @@ function EditStudent() {
             </Button>
           </div>
           <div className="flex items-center mt-7">
-            <label className="w-64 text-lg font-bold">تاريخ الميلاد:</label>
+            <label className="w-64 text- md:text-lg font-bold">تاريخ الميلاد:</label>
             <Input
               name="DOB"
               value={formData.DOB}
@@ -332,7 +334,7 @@ function EditStudent() {
             </Button>
           </div>
           <div className="flex items-center mt-7">
-            <label className="w-64 text-lg font-bold">البريد الإلكتروني:</label>
+            <label className="w-64 text- md:text-lg font-bold">البريد الإلكتروني:</label>
             <Input
               name="email"
               value={formData.email}

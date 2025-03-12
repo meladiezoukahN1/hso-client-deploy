@@ -9,7 +9,7 @@ export const buildingShowSchema = z.object({
   name_building: z.string().nonempty(""),
   count_room_available: z.number(),
   total_rooms: z.number(),
-  floors: z.number().min(1, "يجب ان لا يقل عدد الطوابق عن 1"),
+  floors: z.number(),
   count_haunted_room: z.number(),
   supervisor: z
     .array(supervisorSchema)

@@ -1,4 +1,4 @@
-import FormField from "./input-validate";
+import { FormField } from "@/components/ui";
 import { UseFormRegister, FieldErrors } from "react-hook-form";
 import RoleButtons from "./RoleButtons";
 import { AddUserType } from "@/validation/managements/user";

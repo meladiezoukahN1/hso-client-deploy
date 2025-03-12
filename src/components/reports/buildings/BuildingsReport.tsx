@@ -12,6 +12,7 @@ import SelectValueComponents from "@/components/ui/SelectValue";
 import { BuildingData, Filters } from "reports";
 import LoadingIcon from "@/components/ui/LoadingIcon";
 import ExportToExcelButton from "@/components/ui/ExportToExcelButton";
+import { statuRooms } from "@/lib/jsons/reports";
 
 const exportColumns = [
   { header: "اسم المبنى", accessor: "buildingName" },
@@ -60,13 +61,14 @@ const BuildingsReport: React.FC = () => {
 
   if (status === "loading") return <LoadingIcon ClassName="h-96" />;
   if (error) return <div>{error}</div>;
-  if (!buildingData || buildingData.length === 0)
+  if ((!buildingData || buildingData.length === 0) && status === "succeeded")
     return <div>لا توجد بيانات متاحة</div>;
 
+
   return (
-    <div className="pt-8 px-24">
+    <div className="pt-8 md:px-24">
       <h1 className="text-3xl font-bold text-center">تقرير المباني و الغرف</h1>
-      <div className="mt-8 flex justify-between">
+      <div className="mt-8 flex justify-between md:gap-x-4">
         <SelectValueComponents
           title={"المباني"}
           data={buildingSelect}
@@ -74,7 +76,7 @@ const BuildingsReport: React.FC = () => {
         />
         <SelectValueComponents
           title={"حالة الغرف"}
-          data={rooms}
+          data={statuRooms}
           onValueChange={(value) => handleFilterChange("InputRoom", value)}
         />
         <SelectValueComponents

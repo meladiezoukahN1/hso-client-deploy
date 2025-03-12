@@ -52,7 +52,7 @@ export default function AddSupervisorTab() {
         <div className="flex justify-center">
           <Button
             type="submit"
-            className="bg-secondary-500 hover:bg-primary-700 text-white w-60 mt-6"
+            className="bg-primary-700 mx-auto w-60 hover:bg-primary-600 mt-6"
           >
             أضف المشرف
           </Button>

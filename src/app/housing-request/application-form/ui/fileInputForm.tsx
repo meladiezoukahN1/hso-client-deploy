@@ -46,7 +46,7 @@ const FileInputFormComponent: React.FC<InputFormProps> = ({
       <h2 className="text-xl font-bold mb-8 mt-10 text-right  text-primary-600">
         ثانياً - قم بتحميل الملفات التالية
       </h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12 px-3">
         {acceptedFiles.map(({ label, name }) => {
           const fieldName = name as keyof ApplicationFormValues;
           return (

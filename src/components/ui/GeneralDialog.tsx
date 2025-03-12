@@ -45,7 +45,8 @@ const GeneralDailog = ({
 }: ImageDialogProps) => {
   return (
     <Dialog onOpenChange={onOpenChange} open={isOpen}>
-      <DialogContent className="sm:max-w-lg bg-gray-50 text-right shadow-lg rounded-lg border border-primary-200">
+      <DialogContent className="max-w-[95%] sm:max-w-md bg-gray-50 text-right shadow-lg rounded-lg border border-primary-200 p-4 md:p-6">
+        {" "}
         <DialogHeader className="flex flex-col items-center">
           <DialogTitle className="text-xl font-bold mt-20 mb-4 text-primary-600">
             {dialogTitle}
@@ -56,21 +57,25 @@ const GeneralDailog = ({
           </DialogDescription>
         </DialogHeader>
         {imageSrc ? <div className="flex justify-center my-4"></div> : ""}
-
-        <DialogFooter className="flex flex-col sm:flex-row gap-4 mt-6 w-4/5 mx-auto">
+        <DialogFooter className="grid grid-cols-1 md:grid-cols-2 gap-3 w-full">
           <DialogClose asChild>
             <Button
               type="button"
-              className={`text-white bg-green-500 w-1/2 hover:bg-green-600 ${confirmButtonClass}`}
+              variant="default"
+              size="sm"
+              className={`w-full md:w-auto text-white bg-green-500 hover:bg-green-600  ${confirmButtonClass}`}
               onClick={onConfirm}
             >
               {confirmText}
             </Button>
           </DialogClose>
+
           <DialogClose asChild>
             <Button
               type="submit"
-              className={`text-white bg-red-500 w-1/2 hover:bg-red-600 ${cancelButtonClass} text-center`}
+              variant="destructive"
+              size="sm"
+              className={`w-full md:w-auto ${cancelButtonClass}`}
               onClick={onCancel}
             >
               {cancelText}

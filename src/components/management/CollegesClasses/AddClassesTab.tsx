@@ -64,7 +64,7 @@ function AddClassesTab() {
   const totalPages = Math.ceil(filteredCollage.length / itemsPerPage);
 
   return (
-    <div className="mt-10">
+    <div className="mt-16">
       <SelectValueComponents
         title="الكلية"
         data={selectCollage}
@@ -93,7 +93,7 @@ function AddClassesTab() {
                   }`}
                   alt={"جاري تحميل الصورة ..."}
                   className="mb-4 object-cover size-32"
-                  loading="lazy"
+                  priority
                 />
 
                 <div className="flex items-center justify-between space-x-2 h-8">
