@@ -22,19 +22,19 @@ export default function EditableField({
           label="الاسم الثلاثي"
           type="text"
           placeholder="أدخل الاسم الثلاثي"
-          name="FullName"
+          name="Fullname"
           register={register}
-          error={errors.FullName}
+          error={errors.Fullname}
           disabled={!disabled}
           className={`${disabled ? "border-0 ring-0" : ""}`}
         />
         <FormField
-          label="اسم المستخدم"
+          label="عنوان السكن"
           type="text"
-          placeholder="اسم المستخدم"
-          name="username"
+          placeholder="عنوان السكن"
+          name="address"
           register={register}
-          error={errors.username}
+          error={errors.address}
           disabled={!disabled}
           className={`${disabled ? "border-0 ring-0" : ""}`}
         />
@@ -45,9 +45,9 @@ export default function EditableField({
           label="رقم الهاتف"
           type="text"
           placeholder="أدخل رقم الهاتف"
-          name="phone"
+          name="Phone"
           register={register}
-          error={errors.phone}
+          error={errors.Phone}
           disabled={!disabled}
           className={`${disabled ? "border-0 ring-0" : ""}`}
         />
@@ -55,9 +55,9 @@ export default function EditableField({
           label="البريد الالكتروني"
           type="text"
           placeholder="أدخل البريد الالكتروني"
-          name="email"
+          name="Email"
           register={register}
-          error={errors.email}
+          error={errors.Email}
           disabled={!disabled}
           className={`${disabled ? "border-0 ring-0" : ""}`}
         />
