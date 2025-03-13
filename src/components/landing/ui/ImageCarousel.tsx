@@ -9,7 +9,7 @@ const ImageCarousel = () => {
 
   const images = [
     {
-      src: "/img01.png",
+      src: "/images/img01.png",
       title: "الإسكان الجامعي:",
       subtitle: "مكانك الأول للراحة والاستقرار",
     },
@@ -19,7 +19,7 @@ const ImageCarousel = () => {
       subtitle: ad.details,
     })),
     {
-      src: "/teambg.jpg",
+      src: "/images/teambg.jpg",
       title: "",
       logo: "/Group.png",
       description: "نحو مستقبل رقمي مبتكر ومستدام",
@@ -40,14 +40,15 @@ const ImageCarousel = () => {
           <div className="relative w-full h-full" key={index}>
             <Image
               src={
-                item.src === "/teambg.jpg" || item.src === "/img01.png"
+                item.src === "/images/teambg.jpg" ||
+                item.src === "/images/img01.png"
                   ? item.src
                   : `${process.env.NEXT_PUBLIC_API_URL}/${item.src}`
               }
               alt={`Slide ${index + 1}`}
               width={1920} // تحديد العرض يدويًا
               height={1080} // تحديد الارتفاع يدويًا
-              priority={index === 0}
+              // priority={index === 0}
               className="w-full h-full object-cover"
             />
 
