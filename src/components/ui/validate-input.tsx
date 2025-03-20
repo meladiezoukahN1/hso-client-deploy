@@ -1,3 +1,5 @@
+"use client"
+
 import { HTMLInputTypeAttribute, useState } from "react";
 import { Input } from "./input";
 import validateEmail from "@/hooks/validate-email";

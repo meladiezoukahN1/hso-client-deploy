@@ -1,24 +1,25 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
-import { Search } from "lucide-react";
-import { Input } from "@/components/ui/input";
+import React, { useState, useEffect } from "react";
+import { Modal, TextInput } from "flowbite-react";
+import { IoSearch } from "react-icons/io5";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux-toolkit";
 import { getStudent } from "@/lib/fetsures/students/action";
 import { Students } from "student";
 import Link from "next/link";
+import SimpleBar from "simplebar-react";
+import "simplebar-react/dist/simplebar.min.css";
 
 export default function SearchInput() {
-  const dispath = useAppDispatch();
+  const dispatch = useAppDispatch();
   const { student } = useAppSelector((state) => state.student);
+  const [openModal, setOpenModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [results, setResults] = useState<Students[]>([]);
 
   useEffect(() => {
-    dispath(getStudent());
-  }, [dispath]);
-
-  const containerRef = useRef<HTMLDivElement | null>(null);
+    dispatch(getStudent());
+  }, [dispatch]);
 
   const handleSearch = (value: string) => {
     const trimmed = value.trim();
@@ -31,67 +32,72 @@ export default function SearchInput() {
         item.full_name.toLowerCase().includes(trimmed.toLowerCase()) ||
         item.faculty_name.toLowerCase().includes(trimmed.toLowerCase()) ||
         item.fileNo.toString().toLowerCase().includes(trimmed.toLowerCase())
-      // && item.status === "Active"
     );
     setResults(filtered);
   };
 
-  const handleClickOutside = (event: MouseEvent) => {
-    if (
-      containerRef.current &&
-      !containerRef.current.contains(event.target as Node)
-    ) {
-      setResults([]);
-    }
-  };
-
-  useEffect(() => {
-    document.addEventListener("click", handleClickOutside);
-    return () => {
-      document.removeEventListener("click", handleClickOutside);
-    };
-  }, []);
-
   return (
-    <div ref={containerRef} className="w-[75%] mr-8 md:mx-auto relative">
-      <form onSubmit={(e) => e.preventDefault()} className="relative">
-        <span className="absolute inset-y-0 left-2 flex items-center pointer-events-none text-gray-500">
-          <Search className="h-4 w-4" />
-        </span>
-        <Input
-          type="text"
-          placeholder="بحث عن طالب..."
-          value={searchTerm}
-          onChange={(e) => {
-            setSearchTerm(e.target.value);
-            handleSearch(e.target.value);
-          }}
-          className="pr-4 h-8 rounded-2xl m-auto focus:outline-none focus:ring-0  border-primary-400"
-        />
-      </form>
+    <div className="relative">
+      <button
+        onClick={() => setOpenModal(true)}
+        className="h-10 w-10 hover:text-primary hover:bg-lightprimary rounded-full flex justify-center items-center cursor-pointer"
+      >
+        <IoSearch className="h-6 w-6 text-white font-bold" />
+      </button>
 
-      {results.length > 0 && (
-        <ul className="absolute w-full overflow-scroll max-h-52 left-0 mt-1 py-1 bg-white border border-muted rounded-md shadow z-10">
-          {results.map((item, idx) => (
-            <Link key={idx} href={`/students/studentsTable/${item.fileNo}`}>
-              <li
-                onClick={() => {
-                  setResults([]);
-                }}
-                className="px-1 py-1 text-xs hover:bg-gray-100"
-              >
-                <div className="flex flex-wrap justify-between text-right pr-2">
-                  <span className="font-semibold w-1/6">{item.fileNo}</span>
-                  <span className="font-semibold w-3/6">{item.full_name}</span>
-                  <span className="font-semibold w-2/6">
-                    {item.faculty_name}
-                  </span>
-                </div>
-              </li>
-            </Link>
-          ))}
-        </ul>
-      )}
+      <Modal
+        dismissible
+        show={openModal}
+        onClose={() => setOpenModal(false)}
+        size="2xl"
+        
+      >
+        <div className="p-6 border-b border-ld rounded-t-3xl">
+          <TextInput
+            sizing="md"
+            placeholder="بحث عن طالب..."
+            value={searchTerm}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+              handleSearch(e.target.value);
+            }}
+            required
+          />
+        </div>
+        <Modal.Body className="rounded-lg">
+          <SimpleBar className="max-h-72 overflow-auto">
+            {results.length > 0 ? (
+              <ul className="space-y-2">
+                {results.map((item, idx) => (
+                  <Link
+                    key={idx}
+                    href={`/students/studentsTable/${item.fileNo}`}
+                  >
+                    <li
+                      onClick={() => {
+                        setOpenModal(false);
+                        setResults([]);
+                        setSearchTerm("");
+                      }}
+                      className="px-2 py-2 text-sm hover:bg-gray-100 rounded cursor-pointer"
+                    >
+                      <div className="flex flex-wrap justify-between text-right">
+                        <span className="font-semibold">{item.fileNo}</span>
+                        <span className="font-semibold">{item.full_name}</span>
+                        <span className="font-semibold">
+                          {item.faculty_name}
+                        </span>
+                      </div>
+                    </li>
+                  </Link>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-center text-gray-500">لا توجد نتائج</p>
+            )}
+          </SimpleBar>
+        </Modal.Body>
+      </Modal>
     </div>
   );
 }

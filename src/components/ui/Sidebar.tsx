@@ -15,7 +15,6 @@ export default function SideBar() {
   const [openSection, setOpenSection] = useState<string | null>(null);
   const { data: session } = useSession();
 
-
   const toggleSection = (name: string) => {
     setOpenSection((prev) => (prev === name ? null : name));
   };
@@ -43,7 +42,11 @@ export default function SideBar() {
       <nav className="p-4">
         {sidebarItems.map((item) => {
           // إخفاء عنصر "الإدارة" إذا لم يكن دور المستخدم "admin"
-          if (item.name === "الإدارة" && session?.user.role !== "admin") {
+          if (
+            item.name === "الإدارة" &&
+            session?.user.role !== "super" &&
+            session?.user.role !== "admin"
+          ) {
             return null;
           }
           return (
@@ -72,31 +75,39 @@ export default function SideBar() {
                   </button>
                   {openSection === item.name && (
                     <div className="ml-8 mt-1 mr-5 space-y-2">
-                      {item.children.map((child) => (
-                        <Link
-                          key={child.name}
-                          href={child.href}
-                          className={clsx(
-                            "flex items-center gap-3 p-2 rounded-lg",
-                            "hover:text-white hover:bg-[#F5E8C7] transition-colors",
-                            isActive(child.href) && "bg-[#F5E8C7]"
-                          )}
-                        >
-                          {child.icon ? (
-                            <child.icon className="w-4 h-4 text-primary-600" />
-                          ) : (
-                            <span
-                              className={clsx(
-                                "w-2 h-2 border border-primary-600 rounded-full",
-                                isActive(child.href) && "bg-primary-600"
-                              )}
-                            ></span>
-                          )}
-                          <span className="text-sm text-primary-800 font-medium">
-                            {child.name}
-                          </span>
-                        </Link>
-                      ))}
+                      {item.children.map((child) => {
+                        if (
+                          child.href === "/management/AdvertisingManagement" &&
+                          session?.user.role !== "super"
+                        ) {
+                          return null;
+                        }
+                        return (
+                          <Link
+                            key={child.name}
+                            href={child.href}
+                            className={clsx(
+                              "flex items-center gap-3 p-2 rounded-lg",
+                              "hover:text-white hover:bg-[#F5E8C7] transition-colors",
+                              isActive(child.href) && "bg-[#F5E8C7]"
+                            )}
+                          >
+                            {child.icon ? (
+                              <child.icon className="w-4 h-4 text-primary-600" />
+                            ) : (
+                              <span
+                                className={clsx(
+                                  "w-2 h-2 border border-primary-600 rounded-full",
+                                  isActive(child.href) && "bg-primary-600"
+                                )}
+                              ></span>
+                            )}
+                            <span className="text-sm text-primary-800 font-medium">
+                              {child.name}
+                            </span>
+                          </Link>
+                        );
+                      })}
                     </div>
                   )}
                 </>

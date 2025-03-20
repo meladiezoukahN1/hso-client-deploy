@@ -74,7 +74,7 @@ const StudentInfoCard = () => {
           {[
             { label: "رقم الملف", value: studentDetails.fileNo },
             { label: "رقم القيد", value: studentDetails.studentID },
-            { label: "الكلية", value: studentDetails.passport },
+            { label: "الكلية", value: studentDetails.faculty_name	 },
             {
               label: "الجنسية",
               value:

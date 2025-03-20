@@ -1,10 +1,10 @@
-import AdvertisingManagement from "@/components/management/AdvertisingManagement/AdvertisingManagement";
+import AdvertisingTabs from "@/components/management/AdvertisingManagement/advertisingTabs";
 import PageContainer from "@/components/ui/pageContainer";
 
 const page = () => {
   return (
     <PageContainer>
-      <AdvertisingManagement />
+      <AdvertisingTabs />
     </PageContainer>
   );
 };

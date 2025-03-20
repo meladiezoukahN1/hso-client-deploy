@@ -34,7 +34,7 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
 
   return (
     <div
-      className={`flex items-center gap-4 justify-end w-[46.5%] ${className}`}
+      className={`flex items-center gap-4 justify-start w-full md:w-[46.5%] ${className}`}
     >
       {" "}
       {/* أضف className هنا */}

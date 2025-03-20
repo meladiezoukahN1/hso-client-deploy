@@ -8,8 +8,6 @@ export default async function middleware(req: NextRequestWithAuth) {
     return NextResponse.next();
   }
 
-  console.log(pathname)
-
   return withAuth(req, {
     pages: {
       signIn: "/auth/login",
@@ -20,6 +18,6 @@ export default async function middleware(req: NextRequestWithAuth) {
 
 export const config = {
   matcher: [
-    "/((?!auth/login|auth/VerifiedEmail|auth/repassword|_next/static|favicon.ico|about_team/our_team|images|housing-request|housing-request/application-form|advertisements/[id]|^/[^/]+\\.(?:png|jpe?g)$).*)",
+    "/((?!auth/login|auth/VerifiedEmail|auth/repassword|_next/static|favicon.ico|Digital_Trans_Team/about_team/our_team|about_team|Digital_Trans_Team/about_team|Digital_Trans_Team/about_team/our_team|images|housing-request|housing-request/application-form|advertisements/[id]|^/[^/]+\\.(?:png|jpe?g)$).*)",
   ],
 };

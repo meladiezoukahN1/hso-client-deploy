@@ -24,13 +24,14 @@ export default function RoomSelector({
   return (
     <div className="flex flex-col items-start w-full">
       <div className="grid grid-cols-[minmax(120px,1fr)_3fr] gap-x-4 items-center w-full">
-        <label className="font-bold text-right whitespace-nowrap pr-2 h-10 flex items-center justify-end">
+        <label className="font-bold text-right whitespace-nowrap  h-10 flex items-center justify-start">
           الغرفة:
         </label>
         <Select
           value={value}
           onValueChange={(v) => v !== "default" && onSelect(Number(v))}
           disabled={disabled}
+          
         >
           {" "}
           <SelectTrigger

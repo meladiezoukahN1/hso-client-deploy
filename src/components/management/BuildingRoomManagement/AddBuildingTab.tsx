@@ -80,7 +80,6 @@ const AddBuildingTab = () => {
     return values;
   };
 
-  // عند التحقق من صحة الحقول يتم تخزين البيانات وإظهار الديالوج
   const handleValidForm = (data: {
     Buildingname: string;
     Numberrooms: number;
@@ -123,88 +122,86 @@ const AddBuildingTab = () => {
     }
   };
 
-  const onError = () => {
-  };
+  const onError = () => {};
 
   if (error) return <ErrorMSG error={error} />;
 
   return (
     <div>
-      <form
-        onSubmit={handleSubmit(handleValidForm, onError)}
-        className="grid grid-cols-2 py-[3%] gap-[10%]"
-      >
-        <ValidateFormField
-          label="اسم المبنى"
-          name="Buildingname"
-          type="text"
-          register={register}
-          error={errors.Buildingname}
-          placeholder="أدخل اسم المبنى"
-        />
-
-        <ValidateFormField
-          label="عدد الغرف"
-          name="Numberrooms"
-          type="number"
-          register={register}
-          error={errors.Numberrooms}
-          placeholder="أدخل عدد الغرف"
-        />
-
-        <ValidateFormField
-          label="عدد الأدوار"
-          name="Numberfloors"
-          type="number"
-          register={register}
-          error={errors.Numberfloors}
-          placeholder="أدخل عدد الأدوار"
-        />
-
-        <div className="flex flex-col gap-2">
-          <Controller
-            name="supervisors"
-            control={control}
-            render={({ field }) => (
-              <div className="flex mr-[6%]">
-                <MultiSelect
-                  label="المشرفين"
-                  options={
-                    supervisors.supervisorList.map((s) => ({
-                      value: s.id.toString(),
-                      label: s.FullName,
-                    })) || []
-                  }
-                  value={field.value}
-                  onChange={(values) => {
-                    const filteredValues = handleSupervisorChange(values);
-                    field.onChange(filteredValues);
-                  }}
-                  placeholder="اختر المشرفين"
-                  className="flex-1"
-                />
-                {errors.supervisors && (
-                  <span className="text-danger text-xs mt-[10%]">
-                    {errors.supervisors.message}
-                  </span>
-                )}
-              </div>
-            )}
+      <form onSubmit={handleSubmit(handleValidForm, onError)}>
+        <div className="space-y-2 md:space-y-0 md:grid md:grid-cols-2 md:gap-4">
+          <ValidateFormField
+            label="اسم المبنى"
+            name="Buildingname"
+            type="text"
+            register={register}
+            error={errors.Buildingname}
+            placeholder="أدخل اسم المبنى"
           />
-        </div>
-        <div className="col-span-2 flex flex-col gap-2 mr-[3%]">
-          <label htmlFor="url" className="text-sm font-bold text-gray">
-            موقع المبنى:
-          </label>
-          <textarea
-            id="url"
-            {...register("url")}
-            className="border border-gray-300 rounded-md p-3 w-full h-24 resize-none focus:outline-none focus:ring-2 focus:ring-primary-600 bg-orange-50"
-            placeholder="من فضلك قم بإدخال رابط موقع المبنى"
-          ></textarea>
-          {errors.url && (
-            <span className="text-danger text-xs">{errors.url.message}</span>
-          )}
+
+          <ValidateFormField
+            label="عدد الغرف"
+            name="Numberrooms"
+            type="number"
+            register={register}
+            error={errors.Numberrooms}
+            placeholder="أدخل عدد الغرف"
+          />
+
+          <ValidateFormField
+            label="عدد الأدوار"
+            name="Numberfloors"
+            type="number"
+            register={register}
+            error={errors.Numberfloors}
+            placeholder="أدخل عدد الأدوار"
+          />
+
+          <div className="flex flex-col gap-2">
+            <Controller
+              name="supervisors"
+              control={control}
+              render={({ field }) => (
+                <div className="flex md:mr-[6%]">
+                  <MultiSelect
+                    label="المشرفين"
+                    options={
+                      supervisors.supervisorList.map((s) => ({
+                        value: s.id.toString(),
+                        label: s.FullName,
+                      })) || []
+                    }
+                    value={field.value}
+                    onChange={(values) => {
+                      const filteredValues = handleSupervisorChange(values);
+                      field.onChange(filteredValues);
+                    }}
+                    placeholder="اختر المشرفين"
+                    className="flex-1"
+                  />
+                  {errors.supervisors && (
+                    <span className="text-danger text-xs mt-[10%]">
+                      {errors.supervisors.message}
+                    </span>
+                  )}
+                </div>
+              )}
+            />
+          </div>
+          <div className="col-span-2 flex flex-col gap-2 mr-[3%]">
+            <label htmlFor="url" className="text-sm font-bold text-gray">
+              موقع المبنى:
+            </label>
+            <textarea
+              id="url"
+              {...register("url")}
+              className="border border-gray-300 rounded-md p-3 w-full h-24 resize-none focus:outline-none focus:ring-2 focus:ring-primary-600 bg-orange-50"
+              placeholder="من فضلك قم بإدخال رابط موقع المبنى"
+            ></textarea>
+            {errors.url && (
+              <span className="text-danger text-xs">{errors.url.message}</span>
+            )}
+          </div>
         </div>
 
         <div className="col-span-2 text-center">

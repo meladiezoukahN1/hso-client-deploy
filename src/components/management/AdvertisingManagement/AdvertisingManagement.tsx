@@ -31,8 +31,6 @@ function AdvertisingManagement() {
   } = useForm<AdvertisementFormData>({
     resolver: zodResolver(AdvertisementSchema),
     defaultValues: {
-      advertisementTitle: "",
-      advertisementDetails: "",
       advertisementImage: undefined,
     },
   });
@@ -51,6 +49,7 @@ function AdvertisingManagement() {
         title: data.advertisementTitle,
         details: data.advertisementDetails,
         image: data.advertisementImage,
+        expiration_date: data.expiration_date,
       };
 
       await dispatch(postAdvertisement(sendData));
@@ -75,11 +74,11 @@ function AdvertisingManagement() {
   };
 
   return (
-    <div className="py-10 text-right">
+    <div className="text-right">
       <BackButton />
       <h1 className="text-3xl font-bold mr-6 mt-10">إدارة الإعلانات:</h1>
       <form
-        className="grid grid-cols-2 gap-10 p-7"
+        className="md:grid md:grid-cols-2 gap-2 p-7"
         onSubmit={handleSubmit(onSubmit)}
       >
         <FormField
@@ -92,10 +91,21 @@ function AdvertisingManagement() {
           classLabel="w-40"
         />
 
+        <FormField
+          label="صلاحية الاعلان"
+          type="number"
+          placeholder="أدخل اسم الإعلان"
+          name="expiration_date"
+          register={register}
+          error={errors.expiration_date}
+          classLabel="w-40"
+          valueAsNumber
+        />
+
         <div className="flex items-center">
           <label
             htmlFor="advertisementImage"
-            className="w-40 text-lg font-bold"
+            className="w-64 md:w-44 text-lg font-bold"
           >
             صورة الإعلان:
           </label>
@@ -121,7 +131,7 @@ function AdvertisingManagement() {
           )}
         </div>
 
-        <div className="flex items-start mb-4">
+        <div className="flex items-start my-4">
           <label
             htmlFor="advertisementDetails"
             className="w-40 text-base font-bold mt-1"
@@ -142,10 +152,17 @@ function AdvertisingManagement() {
         </div>
 
         <div className="col-span-2 flex justify-center gap-4">
-          <Button type="submit" className="w-40">
+          <Button
+            type="submit"
+            className="w-40 bg-primary-500 hover:bg-primary-600 text-white"
+          >
             إضافة الإعلان
           </Button>
-          <Button type="button" onClick={handlePreview} className="w-40">
+          <Button
+            type="button"
+            onClick={handlePreview}
+            className="w-40 bg-yellow-500 hover:bg-yellow-600 text-white"
+          >
             عرض الإعلان
           </Button>
         </div>

@@ -32,6 +32,8 @@ import {
   getRoomsById,
   SelectBuilding,
   editRoom,
+  updateAd,
+  deleteAds,
 } from "./action";
 import { toast } from "sonner";
 
@@ -369,13 +371,11 @@ const managementSlice = createSlice({
       })
       .addCase(getBuildings.pending, (state) => {
         state.isLoading = true;
-        toast.loading("جاري جلب بيانات المباني");
       })
       .addCase(getBuildings.fulfilled, (state, action) => {
         state.isLoading = false;
         toast.dismiss();
         state.buildings.bulidingInfoList = action.payload;
-        toast.success("تم جلب بيانات المباني");
       })
       .addCase(getBuildings.rejected, (state, action) => {
         state.isLoading = false;
@@ -545,6 +545,30 @@ const managementSlice = createSlice({
         toast.success("تم تعديل الغرفة بنجاح!");
       })
       .addCase(editRoom.rejected, (state) => {
+        state.isLoading = false;
+      })
+
+      .addCase(updateAd.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateAd.fulfilled, (state) => {
+        state.isLoading = false;
+        toast.dismiss();
+        toast.success("تم تعديل الاعلان بنجاح!");
+      })
+      .addCase(updateAd.rejected, (state) => {
+        state.isLoading = false;
+      })
+
+      .addCase(deleteAds.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(deleteAds.fulfilled, (state) => {
+        state.isLoading = false;
+        toast.dismiss();
+        toast.success("تم تعديل الاعلان بنجاح!");
+      })
+      .addCase(deleteAds.rejected, (state) => {
         state.isLoading = false;
       });
   },

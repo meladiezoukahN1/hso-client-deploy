@@ -13,18 +13,20 @@ import { useAppDispatch, useAppSelector } from "@/hooks/redux-toolkit";
 import { loginAction } from "@/lib/fetsures/auth/action";
 import useAuthLock from "@/hooks/useAuthLock";
 import Image from "next/image";
+import { LoadingLogin } from "../ui/DailogLoading";
 
 const LoginPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const { statues, loginParams } = useAppSelector((state) => state.auth);
+  const { loginParams } = useAppSelector((state) => state.auth);
   const { authState, handleFailedAttempt } = useAuthLock();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    setIsLoading(true);
     const isFormValid = username && validatePassword(password);
 
     if (!isFormValid) {
@@ -40,13 +42,16 @@ const LoginPage = () => {
           password,
         })
       );
+      setIsLoading(false);
     } catch {
+      setIsLoading(false);
       toast.error("فشل تسجيل الدخول. يرجى المحاولة مرة أخرى!");
       handleFailedAttempt();
     }
   };
 
   const handleVerify = async (otp: string) => {
+    setIsLoading(true);
     try {
       const res = await signIn("credentials", {
         token: loginParams.token,
@@ -54,9 +59,11 @@ const LoginPage = () => {
         redirect: false,
       });
 
+      setIsLoading(false);
       if (res?.ok) {
         router.push("/home");
       } else {
+        setIsLoading(false);
         toast.error("تاكد من رمز التحقق");
       }
     } catch {}
@@ -64,17 +71,18 @@ const LoginPage = () => {
 
   const handleResend = async (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
+    setIsLoading(true);
     await dispatch(
       loginAction({
         username,
         password,
       })
     );
+    setIsLoading(false);
   };
 
   return (
     <div className="flex flex-col md:flex-row h-screen w-screen">
-      {/* القسم الأيسر - نموذج تسجيل الدخول */}
       <div className="w-full md:w-2/3 flex flex-col justify-center items-center bg-white px-10 py-6 order-2 md:order-1">
         <h1 className="text-4xl font-bold text-indigo-900 mb-6">
           مرحبـــــًا بك
@@ -149,7 +157,7 @@ const LoginPage = () => {
         </form>
 
         {/* عرض نافذة OTP في حال نجاح الخطوة الأولى */}
-        {statues === "seccuess" && (
+        {loginParams.token && (
           <OTP
             length={6}
             title="تفقد بريدك الإلكتروني لقد تم إرسال رمز التحقق إليك قم بإدخاله"
@@ -162,7 +170,7 @@ const LoginPage = () => {
           />
         )}
       </div>
-
+      {isLoading && <LoadingLogin />}
       {/* القسم الأيمن - الشعار */}
       <div className="w-full md:w-1/3 flex justify-center items-center bg-gradient-to-b md:bg-gradient-to-t from-yellow-500 to-white-200 shadow-2xl rounded-lg py-2 order-1 md:order-2">
         <Image

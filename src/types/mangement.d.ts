@@ -116,8 +116,8 @@ declare module "mangement" {
     title: string;
     details: string;
     image: string;
-    created_at: string;
-    updated_at: string;
+    created_at?: string;
+    updated_at?: string;
   }
 
   interface FormData {

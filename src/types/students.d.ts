@@ -103,6 +103,7 @@ declare module "student" {
     Phone: string;
     Email: string;
     faculty: number;
+    NatNo: string;
     documents: {
       DocId: number;
       FileName: string;

@@ -34,7 +34,15 @@ const ImageCarousel = () => {
     >
       <Carousels
         slideInterval={6000}
-        className="h-[300px] sm:h-[400px] md:h-[500px] lg:h-[610px]"
+        theme={{
+          root: {
+            base: "h-[300px] sm:h-[400px] md:h-[500px] lg:h-[610px] rounded-none",
+          },
+           control:{
+            base: "rounded-none"
+           }
+        }}
+        className="h-[300px] sm:h-[400px] md:h-[500px] lg:h-[610px] rounded-none"
       >
         {images.map((item, index) => (
           <div className="relative w-full h-full" key={index}>
@@ -88,7 +96,7 @@ const ImageCarousel = () => {
 
               {item.buttonText && (
                 <div className="flex justify-center mt-4 md:mt-8">
-                  <Link href="/Digital_Trans_Team/about_team">
+                  <Link href="/about_team">
                     <button
                       className="bg-[#E5B11F] text-white font-bold rounded-lg hover:bg-yellow-500 transition-colors duration-300
                       px-3 py-2 text-sm

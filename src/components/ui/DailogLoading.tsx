@@ -11,4 +11,14 @@ const DailogLoading = () => {
   );
 };
 
+export const LoadingLogin = ()=>{
+  return(
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black bg-opacity-50">
+      <div className=" py-2 px-8 rounded-lg flex items-center gap-2 justify-center">
+        <div className="animate-spin inline-block size-10 border-[5px] border-t-transparent border-yellow-500 rounded-full"></div>
+      </div>
+    </div>
+  )
+}
+
 export default DailogLoading;

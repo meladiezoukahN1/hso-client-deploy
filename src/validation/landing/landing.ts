@@ -78,7 +78,7 @@ export const ApplicationSchema = z
         const dobDate = new Date(date);
         const year = new Date();
         const age = year.getFullYear() - dobDate.getFullYear();
-        return  age >= 16 && age <=18;
+        return age >= 16 && age <= 18;
       }, "يجب أن يكون تاريخ الميلاد بين 16 و 18 سنة"),
     birthCertificate: z
       .instanceof(File, { message: "يرجى تحميل الملف" })
@@ -87,8 +87,11 @@ export const ApplicationSchema = z
         message: "الملف يجب أن يكون أقل من 5MB",
       })
       .refine(
-        (file) => file.type === "application/pdf",
-        "يجب تحميل الملف بصيغة PDF"
+        (file) =>
+          ["application/pdf", "image/png", "image/jpeg", "image/jpg"].includes(
+            file.type
+          ),
+        "يجب تحميل ملف بصيغة PDF أو صورة (PNG, JPG, JPEG)"
       ),
     residencyProof: z
       .instanceof(File, { message: "يرجى تحميل الملف" })
@@ -96,8 +99,11 @@ export const ApplicationSchema = z
         message: "الملف يجب أن يكون أقل من 5MB",
       })
       .refine(
-        (file) => file.type === "application/pdf",
-        "يجب تحميل الملف بصيغة PDF"
+        (file) =>
+          ["application/pdf", "image/png", "image/jpeg", "image/jpg"].includes(
+            file.type
+          ),
+        "يجب تحميل ملف بصيغة PDF أو صورة (PNG, JPG, JPEG)"
       ),
     personalPhotos: z
       .instanceof(File, { message: "يرجى تحميل الملف" })
@@ -105,8 +111,11 @@ export const ApplicationSchema = z
         message: "الملف يجب أن يكون أقل من 5MB",
       })
       .refine(
-        (file) => file.type === "application/pdf",
-        "يجب تحميل الملف بصيغة PDF"
+        (file) =>
+          ["application/pdf", "image/png", "image/jpeg", "image/jpg"].includes(
+            file.type
+          ),
+        "يجب تحميل ملف بصيغة PDF أو صورة (PNG, JPG, JPEG)"
       ),
     secondaryCertificate: z
       .instanceof(File, { message: "يرجى تحميل الملف" })
@@ -114,8 +123,11 @@ export const ApplicationSchema = z
         message: "الملف يجب أن يكون أقل من 5MB",
       })
       .refine(
-        (file) => file.type === "application/pdf",
-        "يجب تحميل الملف بصيغة PDF"
+        (file) =>
+          ["application/pdf", "image/png", "image/jpeg", "image/jpg"].includes(
+            file.type
+          ),
+        "يجب تحميل ملف بصيغة PDF أو صورة (PNG, JPG, JPEG)"
       ),
   })
   .refine(

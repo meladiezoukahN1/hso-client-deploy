@@ -1,29 +1,38 @@
 "use client";
 
-import { useEffect } from "react";
+import { LoadingIcon } from "@/components/ui";
 import { useSession } from "next-auth/react";
+import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
-import LoadingIcon from "@/components/ui/LoadingIcon";
+import { useEffect } from "react";
 
 export default function AuthGuard({ children }: { children: React.ReactNode }) {
   const { data: session, status } = useSession();
   const router = useRouter();
+  const path = usePathname();
 
   useEffect(() => {
+    if (status === "loading") return;
+
+    if (session?.user.role !== "admin" && session?.user.role !== "super") {
+      router.replace("/home");
+      return;
+    }
+
     if (
-      status !== "loading" &&
-      (status === "unauthenticated" || session?.user.role !== "admin")
+      path === "/management/AdvertisingManagement" &&
+      session?.user.role !== "super"
     ) {
       router.replace("/home");
     }
-  }, [status, session, router]);
+  }, [status, session, router, path]);
 
-  // في حالة التحميل أو عدم التوثيق أو عدم صلاحية المستخدم، يتم عرض LoadingIcon
-  if (
-    status === "loading" ||
-    status === "unauthenticated" ||
-    session?.user.role !== "admin"
-  ) {
+  if (status === "loading") {
+    return <LoadingIcon />;
+  }
+
+  if (!session) {
+    router.replace("/home");
     return <LoadingIcon />;
   }
 

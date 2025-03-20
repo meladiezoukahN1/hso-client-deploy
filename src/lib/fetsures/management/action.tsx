@@ -198,7 +198,12 @@ export const postAcademicSeasons = createAsyncThunk(
 
 export const postAdvertisement = createAsyncThunk(
   "management/postAdvertisement",
-  async (newAdvertisement: { title: string; details: string; image: File }) => {
+  async (newAdvertisement: {
+    title: string;
+    details: string;
+    image: File;
+    expiration_date: number;
+  }) => {
     const axios = await useAxios({ formData: true, auth: true });
     try {
       const res = await axios.post("/api/advertisement", newAdvertisement);
@@ -513,6 +518,40 @@ export const editRoom = createAsyncThunk(
     const axios = await useAxios({ auth: true });
     try {
       const res = await axios.post("/api/room/" + editRoom.id, editRoom);
+      return res.data;
+    } catch (e) {
+      throw handleError(e);
+    }
+  }
+);
+
+export const updateAd = createAsyncThunk(
+  "mangemnt/edit advertisement",
+  async (editAdvertisements: {
+    id: number;
+    title: string;
+    details: string;
+    image: File;
+  }) => {
+    const axios = await useAxios({ auth: true, formData: true });
+    try {
+      const res = await axios.post(
+        "/api/advertisement/" + editAdvertisements.id,
+        editAdvertisements
+      );
+      return res.data;
+    } catch (e) {
+      throw handleError(e);
+    }
+  }
+);
+
+export const deleteAds = createAsyncThunk(
+  "mangemnt/delete advertisement",
+  async (id: number) => {
+    const axios = await useAxios({ auth: true });
+    try {
+      const res = await axios.delete("/api/advertisement/" + id);
       return res.data;
     } catch (e) {
       throw handleError(e);

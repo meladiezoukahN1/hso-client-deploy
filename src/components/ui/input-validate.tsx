@@ -39,7 +39,7 @@ const FormField = <T extends Record<string, unknown>>({
         {label && (
           <label
             htmlFor={name}
-            className={`font-bold text-right whitespace-nowrap pr-2 h-10 flex items-center justify-start ${classLabel}`}
+            className={`font-bold text-right whitespace-nowrap  h-10 flex items-center justify-start ${classLabel}`}
           >
             {label}:
           </label>

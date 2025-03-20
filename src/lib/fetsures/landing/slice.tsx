@@ -5,7 +5,7 @@ import { toast } from "sonner";
 
 const initialState: Landing = {
   advertisement: [],
-  loading: false,
+  loading: true,
   error: "",
 };
 
@@ -23,12 +23,11 @@ const LandingPage = createSlice({
         state.advertisement = action.payload;
       })
       .addCase(advertisements.rejected, (state, action) => {
-        state.loading = true;
+        state.loading = false;
         state.error = action.error.message || null;
         toast.error(`${action.payload}`);
       });
   },
 });
-
 
 export default LandingPage.reducer;

@@ -26,7 +26,6 @@ export default function BuildingShowTab() {
   const { buildingList } = useAppSelector((state) => state.mangement.buildings);
   const dispatch = useAppDispatch();
 
- 
   const {
     register,
     handleSubmit,
@@ -138,12 +137,13 @@ export default function BuildingShowTab() {
             value: build.id.toString(),
           }))}
           onValueChange={handleBuildingChange}
+          ClassName="w-full md:w-[38%] "
         />
       </div>
 
       <form className="mt-4" onSubmit={handleSubmit(() => setIsOpen(true))}>
         <EditableField errors={errors} register={register} disabled={false}>
-          <div className="mr-[4%]">
+          <div className="mr-[4%] w-full">
             <MultiSelect
               onChange={handleSupervisorChange}
               label="المشرفين"

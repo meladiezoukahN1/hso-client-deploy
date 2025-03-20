@@ -166,6 +166,7 @@ const ExhaustedReport = () => {
         />
       </div>
       <div className="mt-4 flex flex-col md:flex-row justify-between items-center gap-2 md:gap-0">
+        <span></span>
         <PaginationComponent
           currentPage={currentPage}
           totalPages={totalPages}

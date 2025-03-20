@@ -46,7 +46,7 @@ const Notifications = () => {
             onClick={toggleNotifications}
             aria-label="إظهار الإشعارات"
           >
-            <NotificationIcon className="p-0 m-0" size={30} />
+            <NotificationIcon className="p-0 m-0 " size={26} />
           </button>
           {notifications.length > 0 && (
             <span className="absolute top-1 right-1 flex items-center justify-center h-5 w-5 translate-x-1/4 -translate-y-1/4 rounded-full bg-secondary-500 text-xs text-white font-bold shadow-md">

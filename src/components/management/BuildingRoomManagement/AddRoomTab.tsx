@@ -92,9 +92,9 @@ const AddRoomTab: React.FC = () => {
   };
 
   return (
-    <div className="p-7">
-      <div className="flex gap-4 items-center mb-6">
-        <label className="text-right w-40 text-lg font-bold px-6">
+    <div className="md:p-7">
+      <div className="flex gap-0 md:gap-4 items- mb-6">
+        <label className="text-right w-40 text-lg font-bold px-2 md:px-6 py-2">
           المبنى:
         </label>
         {isLoading ? (
@@ -102,13 +102,13 @@ const AddRoomTab: React.FC = () => {
         ) : error ? (
           <p>حدث خطأ أثناء جلب البيانات</p>
         ) : (
-          <div className="flex flex-wrap gap-4">
+          <div className="flex flex-wrap gap-1 md:gap-4">
             {buildings.buildingList.map((building) => (
               <Button
                 key={building.id}
                 type="button"
                 onClick={() => setValue("buildingID", building.id.toString())}
-                className={`w-44 h-10 hover:bg-primary-700 hover:text-white ${
+               className={`w-32 md:w-44 h-10 hover:bg-primary-700 hover:text-white ${
                   watch("buildingID") === building.id.toString()
                     ? "bg-secondary text-white"
                     : "bg-gray-200 text-black"
@@ -127,7 +127,7 @@ const AddRoomTab: React.FC = () => {
       </div>
 
       <form>
-        <div className="grid grid-cols-2 gap-10 py-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-10 py-6">
           <ValidateFormField
             label="رقم الغرفة"
             name="RoomNo"

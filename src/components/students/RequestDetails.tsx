@@ -22,7 +22,7 @@ const RequestDetails = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isDialogOpenSecond, setIsDialogOpenSecond] = useState(false);
   const dispatch = useAppDispatch();
-  const { requesteDetails, loading, status,  } = useAppSelector(
+  const { requesteDetails, loading, status } = useAppSelector(
     (state) => state.student
   );
 
@@ -69,6 +69,8 @@ const RequestDetails = () => {
     );
   }
 
+  console.log(requesteDetails);
+
   return (
     <div className="p-4 max-w-6xl mx-auto">
       {status === "loading" && <LoadingIcon />}
@@ -92,12 +94,12 @@ const RequestDetails = () => {
                 {/* Column 1 */}
                 <div className="space-y-3 md:space-y-4">
                   {[
-                    { label: "الرقم الوطني", value: request.studentID },
+                    { label: "الرقم الوطني", value: request.NatNo },
                     { label: "رقم القيد", value: request.studentID },
                     { label: "رقم الهاتف", value: request.Phone },
                     {
                       label: "تاريخ الميلاد",
-                      value: new Date(request.DOB).toLocaleDateString("ar-EG"),
+                      value: request.DOB,
                     },
                   ].map(({ label, value }, i) => (
                     <div
@@ -123,6 +125,7 @@ const RequestDetails = () => {
                     { label: "الجنسية", value: request.nationality },
                     { label: "الكلية", value: request.faculty },
                     { label: "البريد الإلكتروني", value: request.Email },
+                    { label: "المدينة", value: request.city },
                   ].map(({ label, value }, i) => (
                     <div
                       key={i}

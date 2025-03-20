@@ -1,27 +1,16 @@
-"use client";
-
+import React from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { tabsConfig } from "@/lib/jsons/mangement/Usermanagementabs";
-import { useAppDispatch } from "@/hooks/redux-toolkit";
-import { useEffect } from "react";
-import { getUsers, showBuilding } from "@/lib/fetsures/management/action";
+import { tabsConfig } from "@/lib/jsons/advertising";
 
-function UserManagements() {
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    dispatch(getUsers());
-    dispatch(showBuilding());
-  }, [dispatch]);
-
+const advertisingTabs = () => {
   return (
     <div className="w-full md:mx-auto">
       <div className="w-full py-[3%] md:px-[37%] text-xl md:text-3xl font-semibold">
-        إدارة المستخدمين
+        إدارة الاعلانات
       </div>
 
-      <Tabs defaultValue="add-user" dir="rtl">
-        <div className="p-[2%]">
+      <Tabs defaultValue="add-advertising" dir="rtl">
+        <div className="px-[2%]">
           <TabsList className="flex flex-row flex-wrap justify-start gap-[1%] bg-background w-full  ">
             {tabsConfig.map((tab, index) => (
               <TabsTrigger
@@ -39,13 +28,17 @@ function UserManagements() {
         </div>
 
         {tabsConfig.map((tab) => (
-          <TabsContent key={tab.value} value={tab.value} className="md:px-[2%] pb-[3%]">
+          <TabsContent
+            key={tab.value}
+            value={tab.value}
+            className="md:px-[2%] pb-[3%]"
+          >
             {<tab.component />}
           </TabsContent>
         ))}
       </Tabs>
     </div>
   );
-}
+};
 
-export default UserManagements;
+export default advertisingTabs;

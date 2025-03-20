@@ -109,7 +109,7 @@ function RoomManagementTab() {
 
   return (
     <div className="mt-[2%] text-right">
-      <div className="flex mb-[2%]">
+      <div className="flex flex-col md:flex-row mb-[2%]">
         <div>
           <BuildingSelector
             buildings={selectBuilding}
@@ -121,7 +121,7 @@ function RoomManagementTab() {
             value={selectedBuildingId ? String(selectedBuildingId) : "default"}
           />
         </div>
-        <div className="mr-[7%]">
+        <div className="md:mr-[7%]">
           <RoomSelector
             rooms={getRoomsSelect}
             onSelect={(id) => {
@@ -133,7 +133,7 @@ function RoomManagementTab() {
           />
         </div>
       </div>
-      <div className="grid grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div className="bg-white p-6 rounded-lg shadow-md space-y-4">
           <h2 className="text-xl font-bold border-b pb-2">بيانات الغرفة</h2>
           <div className="space-y-3">

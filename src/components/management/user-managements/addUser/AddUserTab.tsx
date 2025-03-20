@@ -51,7 +51,7 @@ export default function AddUser() {
   const onSubmit = async () => setIsOpen(true);
 
   return (
-    <div className="px-7 py-3">
+    <div className="md:px-7 py-3">
       <form className="" onSubmit={handleSubmit(onSubmit)}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
           <InputFields

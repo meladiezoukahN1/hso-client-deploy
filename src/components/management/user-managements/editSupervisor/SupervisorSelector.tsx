@@ -22,9 +22,9 @@ export default function SupervisorSelector({
   value,
 }: SupervisorSelectorProps) {
   return (
-    <div className="flex flex-col items-start w-full">
+    <div className="mt-4 md:mt-0 flex flex-col items-start w-full">
       <div className="grid grid-cols-[minmax(120px,1fr)_3fr] gap-x-4 items-center w-full">
-        <label className="font-bold text-right whitespace-nowrap pr-2 h-10 flex items-center justify-end mr-[120%]">
+        <label className="font-bold text-right whitespace-nowrap pr-2 h-10 flex items-center justify-start ">
           المشرفين:
         </label>
         <Select
@@ -32,7 +32,7 @@ export default function SupervisorSelector({
           onValueChange={(val) => val !== "default" && onSelect(Number(val))}
           disabled={disabled}
         >
-          <SelectTrigger className="w-full h-10 border rounded bg-orange-50 mr-[10%]">
+          <SelectTrigger className="w-full h-10 border rounded bg-orange-50 ">
             <div className="w-full text-center">
               <SelectValue placeholder="اختر المشرف" />
             </div>
