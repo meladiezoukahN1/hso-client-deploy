@@ -60,9 +60,9 @@ const BuildingsReport: React.FC = () => {
   );
 
   if (status === "loading") return <LoadingIcon ClassName="h-96" />;
-  if (error) return <div>{error}</div>;
   if ((!buildingData || buildingData.length === 0) && status === "succeeded")
-    return <div>لا توجد بيانات متاحة</div>;
+    return <div className="flex min-h-96 items-center justify-center">لا توجد بيانات متاحة</div>;
+  if (error) return <div>{error}</div>;
 
 
   return (

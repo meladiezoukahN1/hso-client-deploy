@@ -31,10 +31,10 @@ export default function RoomSelector({
           value={value}
           onValueChange={(v) => v !== "default" && onSelect(Number(v))}
           disabled={disabled}
-          
         >
           {" "}
           <SelectTrigger
+            dir="rtl"
             className={`w-full h-10 border rounded ${
               disabled ? "bg-gray-100" : "bg-orange-50"
             }`}
@@ -49,7 +49,7 @@ export default function RoomSelector({
               />
             </div>
           </SelectTrigger>
-          <SelectContent className="max-h-64 overflow-auto">
+          <SelectContent className="max-h-64 overflow-auto" dir="rtl">
             <SelectItem value="default">اختر الغرفة</SelectItem>
             {rooms.map((r) => (
               <SelectItem key={r.value} value={String(r.value)}>

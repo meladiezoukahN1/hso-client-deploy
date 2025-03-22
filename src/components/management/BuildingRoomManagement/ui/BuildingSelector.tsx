@@ -31,7 +31,7 @@ export default function BuildingSelector({
           }
         >
           {" "}
-          <SelectTrigger className="w-full h-10 border rounded bg-orange-50">
+          <SelectTrigger dir="rtl" className="w-full h-10 border rounded bg-orange-50">
             <div className="w-full text-center">
               <SelectValue
                 placeholder={
@@ -40,7 +40,7 @@ export default function BuildingSelector({
               />
             </div>
           </SelectTrigger>
-          <SelectContent className="max-h-64 overflow-auto">
+          <SelectContent dir="rtl" className="max-h-64 overflow-auto">
             <SelectItem value="default">اختر المبنى</SelectItem>
             {buildings.map((building) => (
               <SelectItem key={building.value} value={String(building.value)}>

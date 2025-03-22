@@ -21,7 +21,7 @@ export const fetchBuildings = createAsyncThunk(
       const res = await axios.get("/api/buildings");
       return res.data.buildings as Building[];
     } catch (error) {
-      throw handleError(error);
+      throw error;
     }
   }
 );
@@ -34,7 +34,7 @@ export const getStudent = createAsyncThunk(
       const res = await axios.get(`/api/students`);
       return res.data as Students[];
     } catch (error) {
-      throw handleError(error);
+      throw error;
     }
   }
 );

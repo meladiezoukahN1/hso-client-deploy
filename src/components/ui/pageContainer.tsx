@@ -34,7 +34,6 @@ const PageContainer = ({ children }: { children: ReactNode }) => {
           <SideBar />
         </aside>
 
-        {/* المحتوى الرئيسي */}
         <div className="flex-1 md:mr-64 w-full">
           <Header />
           <section className="p-4 flex-1 w-full overflow-auto mt-20">
@@ -43,7 +42,6 @@ const PageContainer = ({ children }: { children: ReactNode }) => {
         </div>
       </div>
 
-      {/* الغطاء المعتم عند فتح القائمة */}
       {isSidebarOpen && (
         <div
           className="fixed inset-0 bg-black/50 md:hidden z-30"

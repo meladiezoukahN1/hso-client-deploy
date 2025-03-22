@@ -29,9 +29,7 @@ const CitiesReport = () => {
     return <div>Error: {error}</div>;
   }
 
-  if (status !== "succeeded") {
-    return <LoadingIcon ClassName="h-96" />;
-  }
+  if (status === "loading") return <LoadingIcon ClassName="h-96" />;
 
   const highestCity = cityReport?.city_with_the_most_students;
   const lowestCity = cityReport?.city_with_the_fewest_students;
@@ -44,6 +42,12 @@ const CitiesReport = () => {
     ? (lowestCity.total_students / totalStudents) * 100
     : 0;
 
+  if (status === "succeeded" && totalStudents === 0)
+    return (
+      <div className="flex min-h-96 items-center justify-center">
+        لا يوجد طلاب من أي مدينة
+      </div>
+    );
   return (
     <div className="pt-8 md:px-24">
       <h1 className="text-3xl font-bold text-center">تقرير المدن</h1>

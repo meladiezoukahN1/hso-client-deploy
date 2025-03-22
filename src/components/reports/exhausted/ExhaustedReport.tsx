@@ -88,13 +88,17 @@ const ExhaustedReport = () => {
     setCurrentPage(1);
   };
 
-  if (error) return <div>{error}</div>;
   if (
     (!studyReportData || studyReportData.length === 0) &&
     status === "succeeded"
   )
-    return <div>No data available</div>;
+    return (
+      <div className="flex min-h-96 items-center justify-center">
+        لا توجد بيانات متاحة
+      </div>
+    );
 
+  if (error) return <div>{error}</div>;
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);

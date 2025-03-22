@@ -338,17 +338,11 @@ const managementSlice = createSlice({
       })
       .addCase(addSupervisor.rejected, (state, action) => {
         state.status = "failed";
-        if (action.payload) {
-          state.error = `${action.payload}`;
-        } else {
-          state.error = `${action.error.message}`;
-        }
       })
 
       // building actions
       .addCase(showBuilding.fulfilled, (state, action) => {
         state.isLoading = false;
-        toast.dismiss();
         state.buildings.buildingList = action.payload;
       })
       .addCase(showBuilding.pending, (state) => {
@@ -356,7 +350,6 @@ const managementSlice = createSlice({
       })
       .addCase(showBuilding.rejected, (state, action) => {
         state.isLoading = false;
-        toast.dismiss();
         state.error = action.error.message || "";
       })
       .addCase(addBuilding.pending, (state) => {
@@ -374,13 +367,10 @@ const managementSlice = createSlice({
       })
       .addCase(getBuildings.fulfilled, (state, action) => {
         state.isLoading = false;
-        toast.dismiss();
         state.buildings.bulidingInfoList = action.payload;
       })
-      .addCase(getBuildings.rejected, (state, action) => {
+      .addCase(getBuildings.rejected, (state) => {
         state.isLoading = false;
-        toast.dismiss();
-        state.error = action.error.message || "";
       })
       .addCase(getBuildingById.pending, (state) => {
         state.isLoading = true;

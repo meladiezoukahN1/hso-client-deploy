@@ -72,7 +72,7 @@ const StudentManagement = () => {
   const totalPages = Math.ceil(dataWithIndex.length / itemsPerPage);
 
   return (
-    <div className="pt-8 px-12">
+    <div className="pt-8 md:px-12 ">
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-bold">السكان</h1>
         <SelectValueComponents

@@ -13,7 +13,7 @@ import PaginationComponent from "@/components/ui/paginationComponent";
 
 function AddClassesTab() {
   const dispatch = useAppDispatch();
-  const { faculties, isLoading, error } = useAppSelector(
+  const { faculties, isLoading } = useAppSelector(
     (state: RootState) => state.mangement
   );
 
@@ -55,7 +55,8 @@ function AddClassesTab() {
     }
   };
 
-  if (error) return <div>حدث خطأ أثناء جلب البيانات</div>;
+  if (isLoading) return <LoadingIcon ClassName="h-48" />;
+  if( filteredCollage.length === 0) return <div>لا يوجد بيانات</div>;
 
   // Pagination logic
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -64,18 +65,13 @@ function AddClassesTab() {
   const totalPages = Math.ceil(filteredCollage.length / itemsPerPage);
 
   return (
-    <div className="mt-16">
+    <div className="mt-16 md:mt-5">
       <SelectValueComponents
         title="الكلية"
         data={selectCollage}
         onValueChange={handleFilterChange}
       />
 
-      {isLoading && filteredCollage.length === 0 ? (
-        <LoadingIcon ClassName="h-48" />
-      ) : (
-        ""
-      )}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-10">
         {currentItems.length > 0
           ? currentItems.map((faculty: ShowFaculties, index: number) => (
@@ -91,7 +87,7 @@ function AddClassesTab() {
                       ? process.env.NEXT_PUBLIC_API_URL + faculty.image
                       : "/#"
                   }`}
-                  alt={"جاري تحميل الصورة ..."}
+                  alt={faculty.value}
                   className="mb-4 object-cover size-32"
                   priority
                 />

@@ -67,7 +67,7 @@ function FacultityManagement() {
   };
 
   return (
-    <div className="mt-8 py-10 text-right">
+    <div className="mt-20 md:mt-5 text-right">
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex gap-x-8 flex-col md:flex-row gap-y-4">
           <FormField
@@ -89,7 +89,7 @@ function FacultityManagement() {
             classLabel="w-44 text-sm md:w-36 md:text-base text-sm justify-start"
           />
         </div>
-        <div className="flex items-center gap-x-4 md:mt-8">
+        <div className="flex items-center gap-x-4 md:mt-4">
           <label htmlFor="image" className="font-bold w-44 md:w-30">
             شعار الكلية:
           </label>

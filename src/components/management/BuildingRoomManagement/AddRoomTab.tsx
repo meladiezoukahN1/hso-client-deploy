@@ -11,6 +11,7 @@ import { AddRoom } from "mangement";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { LoadingIcon } from "@/components/ui";
 
 // تعريف نوع بيانات النموذج لتحسين الأمان في التحقق من الأنواع
 type RoomFormData = {
@@ -86,39 +87,36 @@ const AddRoomTab: React.FC = () => {
     } catch (e) {
       console.error(e);
       toast.error("حدث خطأ أثناء إضافة الغرفة.");
-    }finally{
+    } finally {
       setIsOpen(false);
     }
   };
 
+  if (isLoading) return <LoadingIcon ClassName="" />;
+  if(buildings.buildingList.length === 0) return <div className="flex items-center justify-center w-full min-h-52 text-xl">لا توجد مباني</div>
   return (
     <div className="md:p-7">
       <div className="flex gap-0 md:gap-4 items- mb-6">
         <label className="text-right w-40 text-lg font-bold px-2 md:px-6 py-2">
           المبنى:
         </label>
-        {isLoading ? (
-          <p>جاري التحميل...</p>
-        ) : error ? (
-          <p>حدث خطأ أثناء جلب البيانات</p>
-        ) : (
-          <div className="flex flex-wrap gap-1 md:gap-4">
-            {buildings.buildingList.map((building) => (
-              <Button
-                key={building.id}
-                type="button"
-                onClick={() => setValue("buildingID", building.id.toString())}
-               className={`w-32 md:w-44 h-10 hover:bg-primary-700 hover:text-white ${
-                  watch("buildingID") === building.id.toString()
-                    ? "bg-secondary text-white"
-                    : "bg-gray-200 text-black"
-                }`}
-              >
-                {building.name_building}
-              </Button>
-            ))}
-          </div>
-        )}
+
+        <div className="flex flex-wrap gap-1 md:gap-4">
+          {buildings.buildingList.map((building) => (
+            <Button
+              key={building.id}
+              type="button"
+              onClick={() => setValue("buildingID", building.id.toString())}
+              className={`w-32 md:w-44 h-10 hover:bg-primary-700 hover:text-white ${
+                watch("buildingID") === building.id.toString()
+                  ? "bg-secondary text-white"
+                  : "bg-gray-200 text-black"
+              }`}
+            >
+              {building.name_building}
+            </Button>
+          ))}
+        </div>
         {errors.buildingID && (
           <span className="text-red-500 text-sm">
             {errors.buildingID.message}

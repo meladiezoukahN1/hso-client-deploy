@@ -15,6 +15,9 @@ export default function SideBar() {
   const [openSection, setOpenSection] = useState<string | null>(null);
   const { data: session } = useSession();
 
+  // Helper function for exact match
+  const isExactActive = (href: string) => pathname === href;
+
   const toggleSection = (name: string) => {
     setOpenSection((prev) => (prev === name ? null : name));
   };
@@ -23,7 +26,7 @@ export default function SideBar() {
     for (const item of sidebarItems) {
       if (
         item.children &&
-        item.children.some((child) => pathname.startsWith(child.href))
+        item.children.some((child) => pathname === child.href)
       ) {
         setOpenSection(item.name);
         break;
@@ -31,17 +34,19 @@ export default function SideBar() {
     }
   }, [pathname]);
 
-  const isActive = (href: string) => pathname.startsWith(href);
-
   return (
     <div className="fixed right-0 top-0 h-screen w-64 bg-gradient-to-b from-[#F5E8C7] to-[#DBB459] shadow-lg overflow-auto">
       <div className="flex items-center justify-center pt-6">
-        <Image src="/image.png" width={60} height={60} alt="Logo" />
+        <Image
+          src="/images/img-sidebar.png"
+          width={60}
+          height={60}
+          alt="Logo"
+        />
       </div>
 
       <nav className="p-4">
         {sidebarItems.map((item) => {
-          // إخفاء عنصر "الإدارة" إذا لم يكن دور المستخدم "admin"
           if (
             item.name === "الإدارة" &&
             session?.user.role !== "super" &&
@@ -58,7 +63,7 @@ export default function SideBar() {
                     className={clsx(
                       "w-full flex items-center justify-between p-3 rounded-lg",
                       "hover:text-white hover:bg-[#F5E8C7] transition-colors",
-                      isActive(item.href) && "bg-[#F5E8C7]"
+                      isExactActive(item.href) && "bg-[#F5E8C7]"
                     )}
                   >
                     <div className="flex items-center gap-3">
@@ -89,7 +94,7 @@ export default function SideBar() {
                             className={clsx(
                               "flex items-center gap-3 p-2 rounded-lg",
                               "hover:text-white hover:bg-[#F5E8C7] transition-colors",
-                              isActive(child.href) && "bg-[#F5E8C7]"
+                              isExactActive(child.href) && "bg-[#F5E8C7]"
                             )}
                           >
                             {child.icon ? (
@@ -98,7 +103,7 @@ export default function SideBar() {
                               <span
                                 className={clsx(
                                   "w-2 h-2 border border-primary-600 rounded-full",
-                                  isActive(child.href) && "bg-primary-600"
+                                  isExactActive(child.href) && "bg-primary-600"
                                 )}
                               ></span>
                             )}
@@ -117,7 +122,7 @@ export default function SideBar() {
                   className={clsx(
                     "flex items-center gap-3 p-3 rounded-lg",
                     "hover:text-white hover:bg-[#F5E8C7] transition-colors",
-                    isActive(item.href) && "bg-[#F5E8C7]"
+                    isExactActive(item.href) && "bg-[#F5E8C7]"
                   )}
                 >
                   <item.icon className="w-5 h-5 text-primary-700" />

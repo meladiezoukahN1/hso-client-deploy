@@ -46,7 +46,7 @@ export const getFaculties = createAsyncThunk(
         };
       });
     } catch (e) {
-      throw handleError(e);
+      throw e;
     }
   }
 );
@@ -164,7 +164,7 @@ export const getStudents = createAsyncThunk(
       const res = await axios.get("/api/students");
       return res.data as Students[];
     } catch (e) {
-      throw handleError(e);
+      throw e;
     }
   }
 );
@@ -387,7 +387,7 @@ export const getBuildings = createAsyncThunk(
       const res = await axios.get("/api/buildings");
       return res.data as BuildingInfo[];
     } catch (e) {
-      throw handleError(e);
+      throw e;
     }
   }
 );

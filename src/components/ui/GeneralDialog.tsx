@@ -48,7 +48,7 @@ const GeneralDailog = ({
       <DialogContent className="max-w-[95%] sm:max-w-md bg-gray-50 text-right shadow-lg rounded-lg border border-primary-200 p-4 md:p-6">
         {" "}
         <DialogHeader className="flex flex-col items-center">
-          <DialogTitle className="text-xl font-bold mt-20 mb-4 text-primary-600">
+          <DialogTitle className="text-xl font-bold mt-20 mb-4 text-primary-600 text-center">
             {dialogTitle}
           </DialogTitle>
           <DialogDescription className=" text-black text-lg text-center pb-9">

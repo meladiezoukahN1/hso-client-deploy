@@ -77,7 +77,7 @@ function ShowClassesTab() {
   const totalPages = Math.ceil(filteredSeasons.length / itemsPerPage);
 
   return (
-    <div className="mt-20">
+    <div className="mt-20 md:mt-5">
       <SelectValueComponents
         title="الكلية"
         data={selectCollage}

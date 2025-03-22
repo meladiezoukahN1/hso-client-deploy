@@ -4,7 +4,6 @@ import GeneralDailog from "@/components/ui/GeneralDailog";
 import MultiSelect from "@/components/ui/multi-select";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux-toolkit";
 import { addBuilding } from "@/lib/fetsures/management/action";
-import ErrorMSG from "@/components/ui/error-msg";
 import { toast } from "sonner";
 import { AddBuilding } from "mangement";
 import ValidateFormField from "./ui/validate-input";
@@ -68,7 +67,7 @@ const AddBuildingTab = () => {
   } | null>(null);
 
   const dispatch = useAppDispatch();
-  const { isLoading, error, supervisors } = useAppSelector(
+  const { isLoading, supervisors } = useAppSelector(
     (state) => state.mangement
   );
 
@@ -122,13 +121,9 @@ const AddBuildingTab = () => {
     }
   };
 
-  const onError = () => {};
-
-  if (error) return <ErrorMSG error={error} />;
-
   return (
     <div>
-      <form onSubmit={handleSubmit(handleValidForm, onError)}>
+      <form onSubmit={handleSubmit(handleValidForm)}>
         <div className="space-y-2 md:space-y-0 md:grid md:grid-cols-2 md:gap-4">
           <ValidateFormField
             label="اسم المبنى"

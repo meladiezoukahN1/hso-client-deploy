@@ -21,7 +21,7 @@ const ImageCarousel = () => {
     {
       src: "/images/teambg.jpg",
       title: "",
-      logo: "/Group.png",
+      logo: "/images/Group.png",
       description: "نحو مستقبل رقمي مبتكر ومستدام",
       buttonText: "اضغط لمعرفة المزيد عن الفريق",
     },
@@ -35,12 +35,10 @@ const ImageCarousel = () => {
       <Carousels
         slideInterval={6000}
         theme={{
-          root: {
-            base: "h-[300px] sm:h-[400px] md:h-[500px] lg:h-[610px] rounded-none",
+          scrollContainer: {
+            base: "flex h-full snap-mandatory overflow-y-hidden overflow-x-scroll scroll-smooth ",
+            // snap: 'snap-x snap-mandatory',
           },
-           control:{
-            base: "rounded-none"
-           }
         }}
         className="h-[300px] sm:h-[400px] md:h-[500px] lg:h-[610px] rounded-none"
       >
@@ -81,9 +79,9 @@ const ImageCarousel = () => {
                   <Image
                     src={item.logo}
                     alt="شعار الفريق"
-                    width={150} // ضبط الحجم يدويًا
-                    height={150}
-                    className="w-24 sm:w-32 md:w-40 lg:w-48"
+                    width={250} // ضبط الحجم يدويًا
+                    height={250}
+                    className="w-32 sm:w-32 md:w-56 lg:w-48"
                   />
                 </div>
               )}

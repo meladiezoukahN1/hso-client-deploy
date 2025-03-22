@@ -102,9 +102,7 @@ function RoomManagementTab() {
       // إعادة تحميل البيانات إذا لزم
       await dispacth(getBuildings());
       await dispacth(SelectBuilding());
-    } catch (error) {
-      console.error("Failed to edit room:", error);
-    }
+    } catch {}
   };
 
   return (

@@ -20,12 +20,12 @@ function BuildingRoomManagement() {
       </div>
       <Tabs defaultValue="Show-Building" dir="rtl">
         <div className="p-[2%] h-20 md:h-auto">
-          <TabsList className="flex flex-row flex-wrap justify-start gap-[1%] bg-background w-full  ">
+          <TabsList className="flex flex-row flex-wrap justify-start gap-[1%] bg-background w-full ">
             {tabsConfig.map((tab, index) => (
               <TabsTrigger
                 key={index}
                 value={tab.value}
-                className="min-w-[120px] text-[clamp(14px,1.5vw,20px)] p-[1.5%] md:p-[1%] transition-all   border-b-2 border-transparent data-[state=active]:border-secondary  hover:bg-secondary/20 data-[state=active]:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0"
+                className="min-w-[120px] text-[clamp(14px,1.5vw,20px)] p-[1.5%] md:p-[1%] transition-all   border-b-2 border-transparent data-[state=active]:border-secondary  hover:bg-secondary/20 data-[state=active]:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 rounded-none"
               >
                 <span className="whitespace-nowrap">{tab.label}</span>
               </TabsTrigger>

@@ -29,8 +29,8 @@ function UserManagements() {
                 value={tab.value}
                 className="min-w-[120px] text-[clamp(14px,1.5vw,20px)] p-[1.5%] md:p-[1%] transition-all 
                            border-b-2 border-transparent data-[state=active]:border-secondary 
-                           hover:bg-secondary/20 data-[state=active]:bg-transparent
-                           focus-visible:ring-0 focus-visible:ring-offset-0"
+                           hover:bg-primary-100 data-[state=active]:bg-transparent
+                           focus-visible:ring-0 focus-visible:ring-offset-0 rounded-none"
               >
                 <span className="whitespace-nowrap">{tab.label}</span>
               </TabsTrigger>
