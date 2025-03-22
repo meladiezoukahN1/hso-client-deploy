@@ -42,7 +42,6 @@ export default function AdsDashboard() {
     dispatch(advertisements());
   }, [dispatch]);
 
-
   // حذف فردي
   const handleSingleDelete = (adId: number) => {
     setCurrentAd(advertisement?.find((ad) => ad.id === adId) || null);
@@ -110,7 +109,6 @@ export default function AdsDashboard() {
     }
   };
 
-
   // بيانات الجدول
   const adsData: Advertisements[] = advertisement || [];
   const currentItems = adsData.slice(
@@ -132,6 +130,7 @@ export default function AdsDashboard() {
       case "image":
         return (
           <div className="flex justify-center my-1">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={`${process.env.NEXT_PUBLIC_API_URL}/${row.image}`}
               alt={row.title}

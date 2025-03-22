@@ -64,7 +64,7 @@ const AddRoomTab: React.FC = () => {
 
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useAppDispatch();
-  const { isLoading, error, buildings } = useAppSelector(
+  const { isLoading, buildings } = useAppSelector(
     (state) => state.mangement
   );
 

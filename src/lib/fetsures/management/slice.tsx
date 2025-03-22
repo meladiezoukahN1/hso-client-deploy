@@ -336,7 +336,7 @@ const managementSlice = createSlice({
         state.status = "succeeded";
         toast.success("تم إضافة المشرف بنجاح");
       })
-      .addCase(addSupervisor.rejected, (state, action) => {
+      .addCase(addSupervisor.rejected, (state) => {
         state.status = "failed";
       })
 
