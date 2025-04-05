@@ -61,9 +61,12 @@ const BuildingsReport: React.FC = () => {
 
   if (status === "loading") return <LoadingIcon ClassName="h-96" />;
   if ((!buildingData || buildingData.length === 0) && status === "succeeded")
-    return <div className="flex min-h-96 items-center justify-center">لا توجد بيانات متاحة</div>;
+    return (
+      <div className="flex min-h-96 items-center justify-center">
+        لا توجد بيانات متاحة
+      </div>
+    );
   if (error) return <div>{error}</div>;
-
 
   return (
     <div className="pt-8 md:px-24">
@@ -77,7 +80,7 @@ const BuildingsReport: React.FC = () => {
         <SelectValueComponents
           title={"حالة الغرف"}
           data={statuRooms}
-          onValueChange={(value) => handleFilterChange("InputRoom", value)}
+          onValueChange={(value) => handleFilterChange("roomState", value)}
         />
         <SelectValueComponents
           title={"الغرف"}

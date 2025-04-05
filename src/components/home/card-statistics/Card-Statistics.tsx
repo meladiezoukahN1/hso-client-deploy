@@ -47,6 +47,7 @@ export default function DashboardCards() {
     );
   }
 
+  console.log(statistics);
   return (
     <div>
       <h1 className="font-cairo font-bold text-2xl md:text-3xl mb-4 md:mb-6 mr-4 md:mr-10">

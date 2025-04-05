@@ -1,6 +1,7 @@
 import axios from "axios";
 import { getSession } from "next-auth/react";
 import { AxiosOptionsProps } from "next-auth";
+import { autoSignOut } from "./auto-signout";
 
 const url = process.env.NEXT_PUBLIC_API_URL;
 
@@ -38,7 +39,7 @@ const useAxios = async (
     (response) => response,
     (error) => {
       if (error.response && [401, 403, 405].includes(error.response.status)) {
-        // autoSignOut(); // تسجيل الخروج تلقائيًا في حالة الخطأ
+        autoSignOut(); // تسجيل الخروج تلقائيًا في حالة الخطأ
       }
       return Promise.reject(error);
     }

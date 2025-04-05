@@ -12,7 +12,7 @@ const Footer = () => {
           {/* Logo Section */}
           <div className="flex flex-col items-center md:items-start gap-4">
             <Image
-              layout="intrinsic"
+              // layout="intrinsic"
               src="/images/LOGO 03.png"
               alt="شعار الشركة"
               width={128}
@@ -21,7 +21,7 @@ const Footer = () => {
             />
             <Link href="/about_team">
               <Image
-                layout="intrinsic"
+                // layout="intrinsic"
                 width={148}
                 height={24}
                 src="/images/Group 209.png"

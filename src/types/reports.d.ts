@@ -68,6 +68,7 @@ declare module "reports" {
     building_name: string;
     room_name: string;
     faculty_name: string;
+    room_status: string;
   }
   export interface BuildingData {
     id: number;

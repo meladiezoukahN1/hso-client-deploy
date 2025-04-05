@@ -41,8 +41,9 @@ export default function BuildingTableAndCardPage({
             filters.roomState === "none" ||
             filters.roomState === "" ||
             building.data_student.some((student) =>
-              (student.room_state ?? "").includes(filters.roomState)
+              (student.room_status ?? "").includes(filters.roomState)
             );
+
           return matchesBuilding && matchesRoom && matchesRoomState;
         })
         .map((building) => ({
@@ -55,7 +56,7 @@ export default function BuildingTableAndCardPage({
             const matchesRoomState =
               filters.roomState === "none" ||
               filters.roomState === "" ||
-              (student.room_state ?? "").includes(filters.roomState);
+              (student.room_status ?? "").includes(filters.roomState);
             return matchesRoom && matchesRoomState;
           }),
         }));
@@ -68,9 +69,11 @@ export default function BuildingTableAndCardPage({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filters, buildingData]);
+  // console.log(filters.InputRoom);
+  // console.log(filteredData);
 
   if (!filteredData || filteredData.length === 0) {
-    return <div>No data available</div>;
+    return <div className="text-center my-8">لا يوجد بيانات مطابقة للبحث</div>;
   }
 
   return (

@@ -88,14 +88,6 @@ const StudentsTable = () => {
   const currentItems = dataWithIndex.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
-  if (status === "succeeded" && currentItems.length === 0) {
-    return (
-      <div className="flex min-h-96 items-center justify-center">
-        لا يوجد طلاب من أي مدينة
-      </div>
-    );
-  }
-
   return (
     <div className="pt-8 md:px-24">
       <h1 className="md:text-3xl text-xl font-bold text-center">عرض الطلبة</h1>
@@ -116,6 +108,7 @@ const StudentsTable = () => {
           onValueChange={(value) => setGender(value)}
         />
       </div>
+
       <div className="mt-4">
         <GeneralTable
           classNameTH="py-1 md:py-3"

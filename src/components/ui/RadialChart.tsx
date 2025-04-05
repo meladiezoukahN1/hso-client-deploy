@@ -26,10 +26,7 @@ export default function ComponentChart({
   icon: Icon,
   color,
 }: ComponentChartProps) {
-  const percentage = (count / max) * 100;
-
-  const chartData = [{ name: title, visitors: percentage, fill: color }];
-  // DB0000
+  const chartData = [{ name: title, visitors: count, fill: color }];
 
   return (
     <Card className="flex flex-col border-0 rounded-xl p-4">
@@ -41,7 +38,7 @@ export default function ComponentChart({
           <RadialBarChart
             data={chartData}
             startAngle={0}
-            endAngle={250}
+            endAngle={max > count ? (count / max) * 360 : 360}
             innerRadius={60}
             outerRadius={90}
           >
@@ -70,6 +67,13 @@ export default function ComponentChart({
                         >
                           {count.toLocaleString()}
                         </tspan>
+                        {/* <tspan
+                          x={viewBox.cx}
+                          y={viewBox.cy ? viewBox.cy + 20 : "40"}
+                          className="fill-muted mt-5 text-base"
+                        >
+                          {percentage.toFixed(1)}%
+                        </tspan> */}
                       </text>
                     );
                   }

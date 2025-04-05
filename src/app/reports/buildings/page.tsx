@@ -1,4 +1,3 @@
-"use client";
 
 import BuildingsReport from "@/components/reports/buildings/BuildingsReport";
 import PageContainer from "@/components/ui/pageContainer";

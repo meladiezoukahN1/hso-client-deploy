@@ -62,7 +62,7 @@ const Landing = () => {
               </div>
 
               <Image
-                layout="intrinsic"
+                // layout="intrinsic"
                 width={500}
                 height={300}
                 src="/images/image.png"
@@ -84,7 +84,7 @@ const Landing = () => {
               className="p-8 md:px-4 flex flex-col md:flex-row items-center justify-start gap-4"
             >
               <Image
-                layout="intrinsic"
+                // layout="intrinsic"
                 width={500}
                 height={300}
                 src="/images/image2.png"
@@ -142,7 +142,7 @@ const Landing = () => {
               {/* temp */}
 
               <Image
-                layout="intrinsic"
+                // layout="intrinsic"
                 height={200}
                 width={200}
                 src="/images/image3.png"
@@ -183,7 +183,7 @@ const Landing = () => {
                   } justify-around items-center gap-8 mt-10`}
                 >
                   <Image
-                    layout="intrinsic"
+                    // layout="intrinsic"
                     src={imgs[index].src}
                     alt={imgs[index].alt}
                     width={250}
