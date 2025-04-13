@@ -16,7 +16,7 @@ export const authOptions: NextAuthOptions = {
 
         try {
           const response = await fetch(
-            `https://trick-go-asp-southeast.trycloudflare.com/verify`,
+            `${process.env.NEXT_PUBLIC_API_BASE_URL}/verify`,
             {
               method: "POST",
               headers: {
